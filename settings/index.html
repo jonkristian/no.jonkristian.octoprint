@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+    <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+</head>
+
+<body>
+
+    <h1 data-i18n="settings.title"></h1>
+
+    <fieldset>
+        <legend data-i18n="settings.authsection"></legend>
+        <div class="field row">
+            <label data-i18n="settings.ip"></label>
+            <input id="ip" type="text">
+        </div>
+
+        <div class="field row">
+            <label data-i18n="settings.apikey"></label>
+            <input id="apikey" type="text">
+        </div>
+    </fieldset>
+
+    <button id="save" class="right" data-i18n="settings.save"></button>
+
+    <script type="text/javascript">
+
+        function onHomeyReady(Homey) {
+
+            Homey.ready();
+
+            let ip = document.getElementById('ip');
+            let apikey = document.getElementById('apikey');
+            let saveElement = document.getElementById('save');
+
+            Homey.get('ip', function (err, value) {
+                if (err) return Homey.alert(err);
+                ip.value = value;
+            });
+
+            Homey.get('apikey', function (err, value) {
+                if (err) return Homey.alert(err);
+                apikey.value = value;
+            });
+
+            saveElement.addEventListener('click', function () {
+                Homey.set('ip', ip.value, function (err) {
+                    if (err) return Homey.alert(err);
+                });
+
+                Homey.set('apikey', apikey.value, function (err) {
+                    if (err) return Homey.alert(err);
+                });
+
+                Homey.alert(__('settings.success'));
+            });
+        }
+
+
+    </script>
+
+</body>
+
+</html>

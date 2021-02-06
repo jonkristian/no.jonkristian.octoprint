@@ -1,0 +1,31 @@
+{
+    "id": "octoprint",
+    "name": {
+        "en": "Octoprint",
+        "no": "Octoprint"
+    },
+    "class": "other",
+    "capabilities": [
+        "onoff",
+        "printer_state",
+        "printer_temp_tool",
+        "printer_temp_bed",
+        "job_pause",
+        "job_resume",
+        "job_cancel",
+        "job_estimate",
+        "job_completion",
+        "job_time",
+        "job_left"
+    ],
+    "icon": "{{driverAssetsPath}}/icon.svg",
+    "images": {
+        "large": "/drivers/printer/assets/images/large.png",
+        "small": "/drivers/printer/assets/images/small.png"
+    },
+    "pair": [
+        {
+            "id": "octoprint_add"
+        }
+    ]
+}

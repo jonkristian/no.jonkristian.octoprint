@@ -1,0 +1,12 @@
+{
+    "save": "Lagre endringer",
+    "offline": "utilgjengelig",
+    "settings": {
+        "title": "Octoprint",
+        "authsection": "Tilkobling",
+        "ip": "Octoprint IP",
+        "apikey": "Octoprint API-nøkkel",
+        "save": "Lagre",
+        "success": "Instillingene ble lagret"
+    }
+}

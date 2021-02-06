@@ -1,0 +1,9 @@
+{
+    "type": "string",
+    "uiComponent": "sensor",
+    "title": {
+        "en": "Time Estimate",
+        "no": "Estimert tid"
+    },
+    "getable": true
+}

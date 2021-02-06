@@ -1,0 +1,10 @@
+{
+    "type": "boolean",
+    "uiComponent": "button",
+    "title": {
+        "en": "Cancel",
+        "no": "Avbryt"
+    },
+    "getable": true,
+    "setable": true
+}

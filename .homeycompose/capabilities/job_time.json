@@ -1,0 +1,9 @@
+{
+    "type": "string",
+    "uiComponent": "sensor",
+    "title": {
+        "en": "Print Time",
+        "no": "Utskriftstid"
+    },
+    "getable": true
+}

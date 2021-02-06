@@ -1,0 +1,10 @@
+{
+    "type": "boolean",
+    "uiComponent": "button",
+    "title": {
+        "en": "Resume",
+        "no": "Resumer"
+    },
+    "getable": true,
+    "setable": true
+}

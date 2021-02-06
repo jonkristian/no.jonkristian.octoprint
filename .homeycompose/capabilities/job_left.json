@@ -1,0 +1,9 @@
+{
+    "type": "string",
+    "uiComponent": "sensor",
+    "title": {
+        "en": "Time Left",
+        "no": "Gjenstående"
+    },
+    "getable": true
+}

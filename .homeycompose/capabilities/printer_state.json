@@ -1,0 +1,8 @@
+{
+    "type": "string",
+    "title": {
+        "en": "State",
+        "no": "Status"
+    },
+    "getable": true
+}

@@ -1,0 +1,22 @@
+{
+    "save": "Save changes",
+    "offline": "went offline",
+    "settings": {
+        "title": "Octoprint",
+        "authsection": "Connection",
+        "ip": "Octoprint IP",
+        "apikey": "Octoprint API Key",
+        "save": "Save",
+        "success": "Settings were saved"
+    },
+    "pair": {
+        "legend": "Your octoprint credentials",
+        "success": "Octoprint device added",
+        "required": "Some fields are missing",
+        "keylength": "Key is empty or wrong length",
+        "name": "Name",
+        "ip": "IP",
+        "apikey": "API Key",
+        "save": "Save"
+    }
+}

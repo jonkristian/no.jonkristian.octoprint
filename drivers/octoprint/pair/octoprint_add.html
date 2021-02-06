@@ -1,0 +1,60 @@
+<script type="text/javascript">
+function configure() {
+    let name = $("#name").val();
+    let ip = $("#ip").val();
+    let apikey = $("#apikey").val();
+
+
+    if ( undefined !== name || undefined !== ip || undefined !== apikey ) {
+        const settings = {
+            name: name,
+            ip: ip,
+            apikey: apikey
+        };
+
+        Homey.emit('validate', settings, function (err, result) {
+            if (err) {
+                console.log(err);
+                Homey.alert(err.message, 'error');
+            } else {
+                const device = {
+                    name: name,
+                    data: {
+                        id: name+'_'+ip
+                    },
+                    settings: {
+                        ip: ip,
+                        apikey: apikey
+                    }
+                };
+                Homey.createDevice(device, function (err, result) {
+                    if (err) return Homey.alert(err);
+                    Homey.alert(__('pair.success'), 'info');
+                    Homey.done();
+                });
+            }
+        });
+    } else {
+        Homey.alert(__('pair.required'), 'error');
+    }
+}
+</script>
+
+<fieldset>
+    <legend data-i18n="pair.legend"></legend>
+    <div class="field row">
+        <label for="name" data-i18n="pair.name"></label>
+        <input type="text" id="name"></input>
+    </div>
+    <div class="field row">
+        <label for="ip" data-i18n="pair.ip"></label>
+        <input type="text" id="ip"></input>
+    </div>
+
+    <div class="field row">
+        <label for="apikey" data-i18n="pair.apikey"></label>
+        <input type="text" id="apikey"></input>
+    </div>
+</fieldset>
+
+<button class="right" id="save" onclick="configure();" data-i18n="pair.save">

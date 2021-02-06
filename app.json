@@ -1,0 +1,167 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "no.jonkristian.octoprint",
+  "version": "1.0.0",
+  "compatibility": ">=3.1.0",
+  "sdk": 2,
+  "name": {
+    "en": "Octoprint",
+    "no": "Octoprint"
+  },
+  "description": {
+    "en": "OctoPrint is a web interface for your 3D printer.",
+    "no": "Octoprint er ett web-grensesnitt for din 3D printer."
+  },
+  "category": [
+    "tools"
+  ],
+  "permissions": [],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "author": {
+    "name": "Jon Kristian Nilsen",
+    "email": "hello@jonkristian.no"
+  },
+  "drivers": [
+    {
+      "id": "octoprint",
+      "name": {
+        "en": "Octoprint",
+        "no": "Octoprint"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff",
+        "printer_state",
+        "printer_temp_tool",
+        "printer_temp_bed",
+        "job_pause",
+        "job_resume",
+        "job_cancel",
+        "job_estimate",
+        "job_completion",
+        "job_time",
+        "job_left"
+      ],
+      "icon": "/drivers/octoprint/assets/icon.svg",
+      "images": {
+        "large": "/drivers/printer/assets/images/large.png",
+        "small": "/drivers/printer/assets/images/small.png"
+      },
+      "pair": [
+        {
+          "id": "octoprint_add"
+        }
+      ]
+    }
+  ],
+  "capabilities": {
+    "job_cancel": {
+      "type": "boolean",
+      "uiComponent": "button",
+      "title": {
+        "en": "Cancel",
+        "no": "Avbryt"
+      },
+      "getable": true,
+      "setable": true
+    },
+    "job_completion": {
+      "type": "number",
+      "uiComponent": "sensor",
+      "units": "%",
+      "title": {
+        "en": "Completion",
+        "no": "Completion"
+      },
+      "getable": true
+    },
+    "job_estimate": {
+      "type": "string",
+      "uiComponent": "sensor",
+      "title": {
+        "en": "Time Estimate",
+        "no": "Estimert tid"
+      },
+      "getable": true
+    },
+    "job_left": {
+      "type": "string",
+      "uiComponent": "sensor",
+      "title": {
+        "en": "Time Left",
+        "no": "Gjenstående"
+      },
+      "getable": true
+    },
+    "job_pause": {
+      "type": "boolean",
+      "uiComponent": "button",
+      "title": {
+        "en": "Pause",
+        "no": "Pause"
+      },
+      "getable": true,
+      "setable": true
+    },
+    "job_resume": {
+      "type": "boolean",
+      "uiComponent": "button",
+      "title": {
+        "en": "Resume",
+        "no": "Resumer"
+      },
+      "getable": true,
+      "setable": true
+    },
+    "job_time": {
+      "type": "string",
+      "uiComponent": "sensor",
+      "title": {
+        "en": "Print Time",
+        "no": "Utskriftstid"
+      },
+      "getable": true
+    },
+    "printer_state": {
+      "type": "string",
+      "title": {
+        "en": "State",
+        "no": "Status"
+      },
+      "getable": true
+    },
+    "printer_temp_bed": {
+      "type": "number",
+      "uiComponent": "sensor",
+      "units": "°C",
+      "title": {
+        "en": "Bed temp",
+        "no": "Bed temp"
+      },
+      "getable": true
+    },
+    "printer_temp_tool": {
+      "type": "number",
+      "uiComponent": "sensor",
+      "units": "°C",
+      "title": {
+        "en": "Tool temp",
+        "no": "Tool temp"
+      },
+      "getable": true
+    }
+  },
+  "discovery": {
+    "octoprint_mdns": {
+      "type": "mdns-sd",
+      "mdns-sd": {
+        "protocol": "tcp",
+        "name": "octoprint"
+      },
+      "id": "{{txt.id}}"
+    }
+  }
+}

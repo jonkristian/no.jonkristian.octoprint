@@ -1,0 +1,11 @@
+{
+  "name": "no.jonkristian.octoprint",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {
+    "homey": "^2.9.7"
+  },
+  "dependencies": {
+    "http.min": "^2.1.0"
+  }
+}
