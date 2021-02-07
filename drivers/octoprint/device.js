@@ -9,10 +9,6 @@ class OctoprintDevice extends Homey.Device {
    * onInit is called when the device is initialized.
    */
   async onInit() {
-    this.setAvailable();
-    this.polling = false;
-    this.addListener('poll', this.pollDevice);
-
     this.octoprint = new OctoprintAPI({
       address: this.getSetting('address'),
       port: this.getSetting('port'),
@@ -20,30 +16,27 @@ class OctoprintDevice extends Homey.Device {
       apikey: this.getSetting('apikey')
     });
 
-    this.printerConnected = await this.octoprint.getPrinterConnected();
+    this.setAvailable();
 
-    if ( true == this.printerConnected && false == this.getCapabilityValue('onoff') ) {
-      this.setCapabilityValue('onoff', true).catch(error => this.log(error));
-    }
+    this.printer = false;
+    this.polling = false;
+
+    this.addListener('poll', this.pollDevice);
 
     this.registerCapabilityListener('onoff', async (value,opts) => {
-      // Don't trigger onoff while printing.
-      if ( false == this.octoprint.getPrinterJob() ) {
-        if (value == false) {
-          console.log('Connecting printer');
-          await this.octoprint.postData('connect').catch(error => this.log(error));
-        } else {
-          console.log('Disconnecting printer');
-          await this.octoprint.postData('disconnect').catch(error => this.log(error));
+      if ( false == value ) {
+        // Don't set off while printing.
+        if ( 'Closed' == this.printer ) {
+          data = { command: 'disconnect' }
+          await this.octoprint.postData('/api/connection', data).catch(error => this.log(error));
         }
+      } else {
+        data = { command: 'connect' }
+        await this.octoprint.postData('/api/connection', data).catch(error => this.log(error));
       }
     });
 
-    this.registerCapabilityListener('job_cancel', async (value,opts) => {
-      Homey.alert('Are you sure you want to cancel?');
-    });
-
-    this.octoprint.serverIsUp()
+    this.octoprint.getServerState()
     .then(result => {
       console.log('Server is up, so we can poll. v.', result);
       this.polling = true;
@@ -89,65 +82,47 @@ class OctoprintDevice extends Homey.Device {
 		this.polling = false;
   }
 
-
 	async pollDevice() {
-		while ( this.polling && this.printerConnected ) {
-			await this.octoprint.getData('/api/printer')
-			.then(result => {
-        // State
-        this.setCapabilityValue('printer_state', result.state.text).catch(error => this.log(error));
+		while ( this.polling ) {
 
-        // Temps
-        if ( undefined !== result.temperature ) {
-          this.setCapabilityValue('printer_temp_bed', result.temperature.bed.actual).catch(error => this.log(error));
-          this.setCapabilityValue('printer_temp_tool', result.temperature.tool0.actual).catch(error => this.log(error));
+      this.printer = await this.octoprint.getPrinterState();
+      this.setCapabilityValue('printer_state', this.printer).catch(error => this.log(error));
+
+      console.log('Printer state is', this.printer);
+
+      // Printer connected?
+      if ('Closed' == this.printer ) {
+        // Trigger off if not already set.
+        if ( true == this.getCapabilityValue('onoff') ) {
+          await this.setCapabilityValue('onoff', false).catch(error => this.log(error));
         }
+      // We're open so let's go ahead.
+      } else {
+        await this.setCapabilityValue('onoff', true).catch(error => this.log(error));
 
-        // Printing?
-        this.octoprint.getPrinterJob()
+        // Printer operation state
+        await this.octoprint.getData('/api/printer')
+        .then(operation => {
+          console.log('Are we reaching operation?');
+          this.setCapabilityValue('printer_temp_bed', operation.temperature.bed.actual).catch(error => this.log(error));
+          this.setCapabilityValue('printer_temp_tool', operation.temperature.tool0.actual).catch(error => this.log(error));
+        });
+
+        // Printer job?
+        await this.octoprint.getPrinterJob()
         .then(job => {
-          console.log('Job results', result);
           this.setCapabilityValue('job_completion', job.completion).catch(error => this.log(error));
           this.setCapabilityValue('job_estimate', job.estimate).catch(error => this.log(error));
           this.setCapabilityValue('job_time', job.time).catch(error => this.log(error));
           this.setCapabilityValue('job_left', job.left).catch(error => this.log(error));
-        })
-        .catch(error => {
-          this.log('Cant get printer job.', error);
         });
-			})
-			.catch(error => {
-        this.log('Cant poll, printer isnt connected?', error);
-      });
+      }
 
       let pollInterval = Homey.ManagerSettings.get('pollInterval') >= 10 ? Homey.ManagerSettings.get('pollInterval') : 30;
-      console.log(pollInterval);
-
       await delay(pollInterval*1000);
-		}
+    }
+
 	}
-
-
-	// async pingDevice() {
-	// 	while (!this.polling && this.pinging) {
-	// 		this.setUnavailable();
-	// 		await this.octoprint.serverIsUp()
-	// 		.then(result => {
-  //         this.log('Set available after ping.');
-	// 				this.setAvailable();
-	// 				this.polling = true;
-	// 				this.pinging = false;
-	// 				this.emit('poll');
-	// 				return;
-	// 		})
-	// 		.catch(error => {
-	// 			this.log('Not reachable, pinging every 60 seconds to see if it comes online again.', error);
-  //     });
-
-	// 		await delay(60000);
-	// 	}
-	// }
-
 }
 
 module.exports = OctoprintDevice;
