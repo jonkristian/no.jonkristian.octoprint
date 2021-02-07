@@ -10,15 +10,11 @@
     <h1 data-i18n="settings.title"></h1>
 
     <fieldset>
-        <legend data-i18n="settings.authsection"></legend>
+        <legend data-i18n="settings.title"></legend>
         <div class="field row">
-            <label data-i18n="settings.ip"></label>
-            <input id="ip" type="text">
-        </div>
-
-        <div class="field row">
-            <label data-i18n="settings.apikey"></label>
-            <input id="apikey" type="text">
+            <label data-i18n="settings.pollInterval"></label>
+            <input id="pollInterval" type="text">
+            <p><small><i data-i18n="settings.pollIntervalDescription"></i></small></p>
         </div>
     </fieldset>
 
@@ -30,26 +26,16 @@
 
             Homey.ready();
 
-            let ip = document.getElementById('ip');
-            let apikey = document.getElementById('apikey');
+            let polling = document.getElementById('pollInterval');
             let saveElement = document.getElementById('save');
 
-            Homey.get('ip', function (err, value) {
+            Homey.get('pollInterval', function (err, value) {
                 if (err) return Homey.alert(err);
-                ip.value = value;
-            });
-
-            Homey.get('apikey', function (err, value) {
-                if (err) return Homey.alert(err);
-                apikey.value = value;
+                pollInterval.value = value;
             });
 
             saveElement.addEventListener('click', function () {
-                Homey.set('ip', ip.value, function (err) {
-                    if (err) return Homey.alert(err);
-                });
-
-                Homey.set('apikey', apikey.value, function (err) {
+                Homey.set('pollInterval', pollInterval.value, function (err) {
                     if (err) return Homey.alert(err);
                 });
 

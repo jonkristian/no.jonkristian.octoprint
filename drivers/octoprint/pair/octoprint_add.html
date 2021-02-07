@@ -1,14 +1,17 @@
 <script type="text/javascript">
 function configure() {
     let name = $("#name").val();
-    let ip = $("#ip").val();
+    let address = $("#address").val();
+    let port = $("#port").val();
+    let ssl = $("#ssl").val();
     let apikey = $("#apikey").val();
 
-
-    if ( undefined !== name || undefined !== ip || undefined !== apikey ) {
+    if ( undefined !== name || undefined !== address || undefined !== apikey ) {
         const settings = {
             name: name,
-            ip: ip,
+            address: address,
+            port: port,
+            ssl: ssl,
             apikey: apikey
         };
 
@@ -20,10 +23,12 @@ function configure() {
                 const device = {
                     name: name,
                     data: {
-                        id: name+'_'+ip
+                        id: name+'_'+address
                     },
                     settings: {
-                        ip: ip,
+                        address: address,
+                        port: port,
+                        ssl: ssl,
                         apikey: apikey
                     }
                 };
@@ -47,10 +52,17 @@ function configure() {
         <input type="text" id="name"></input>
     </div>
     <div class="field row">
-        <label for="ip" data-i18n="pair.ip"></label>
-        <input type="text" id="ip"></input>
+        <label for="address" data-i18n="pair.address"></label>
+        <input type="text" id="address"></input>
     </div>
-
+    <div class="field row">
+        <label for="port" data-i18n="pair.port"></label>
+        <input type="text" id="port" value="80"></input>
+    </div>
+    <div class="field row">
+        <label for="ssl" data-i18n="pair.ssl"></label>
+        <input type="checkbox" id="ssl"></input>
+    </div>
     <div class="field row">
         <label for="apikey" data-i18n="pair.apikey"></label>
         <input type="text" id="apikey"></input>

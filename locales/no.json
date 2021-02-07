@@ -3,10 +3,21 @@
     "offline": "utilgjengelig",
     "settings": {
         "title": "Octoprint",
-        "authsection": "Tilkobling",
-        "ip": "Octoprint IP",
-        "apikey": "Octoprint API-nøkkel",
+        "pollInterval": "Oppdatering",
+        "pollIntervalDescription": "Hvor ofte skal verdier oppdateres (Standard er 30s).",
         "save": "Lagre",
         "success": "Instillingene ble lagret"
+    },
+    "pair": {
+        "legend": "Instillinger for octoprint",
+        "success": "Octoprint enhet lagt til",
+        "required": "Noen felter mangler",
+        "keylength": "Nøkkel er tom eller feil",
+        "name": "Navn",
+        "address": "Adresse",
+        "port": "Port",
+        "ssl": "SSL",
+        "apikey": "API-nøkkel",
+        "save": "Lagre"
     }
 }

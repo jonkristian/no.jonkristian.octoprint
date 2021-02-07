@@ -2,10 +2,9 @@
     "save": "Save changes",
     "offline": "went offline",
     "settings": {
-        "title": "Octoprint",
-        "authsection": "Connection",
-        "ip": "Octoprint IP",
-        "apikey": "Octoprint API Key",
+        "title": "Global Settings",
+        "pollInterval": "Poll Interval",
+        "pollIntervalDescription": "How often to poll for changes (Defaults to 30s).",
         "save": "Save",
         "success": "Settings were saved"
     },
@@ -15,7 +14,9 @@
         "required": "Some fields are missing",
         "keylength": "Key is empty or wrong length",
         "name": "Name",
-        "ip": "IP",
+        "address": "Adress",
+        "port": "Port",
+        "ssl": "SSL",
         "apikey": "API Key",
         "save": "Save"
     }

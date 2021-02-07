@@ -14,13 +14,15 @@ class OctoprintDevice extends Homey.Device {
     this.addListener('poll', this.pollDevice);
 
     this.octoprint = new OctoprintAPI({
-      ip: this.getSetting('ip'),
+      address: this.getSetting('address'),
+      port: this.getSetting('port'),
+      ssl: this.getSetting('ssl'),
       apikey: this.getSetting('apikey')
     });
 
-    this.printer = await this.octoprint.getPrinterConnected();
+    this.printerConnected = await this.octoprint.getPrinterConnected();
 
-    if ( true == this.printer && false == this.getCapabilityValue('onoff') ) {
+    if ( true == this.printerConnected && false == this.getCapabilityValue('onoff') ) {
       this.setCapabilityValue('onoff', true).catch(error => this.log(error));
     }
 
@@ -28,23 +30,27 @@ class OctoprintDevice extends Homey.Device {
       // Don't trigger onoff while printing.
       if ( false == this.octoprint.getPrinterJob() ) {
         if (value == false) {
-          console.log('Connecting printer.');
+          console.log('Connecting printer');
           await this.octoprint.postData('connect').catch(error => this.log(error));
         } else {
-          console.log('Disconnecting printer.');
+          console.log('Disconnecting printer');
           await this.octoprint.postData('disconnect').catch(error => this.log(error));
         }
       }
     });
 
+    this.registerCapabilityListener('job_cancel', async (value,opts) => {
+      Homey.alert('Are you sure you want to cancel?');
+    });
+
     this.octoprint.serverIsUp()
     .then(result => {
-      console.log('Server is up, so we can poll.');
+      console.log('Server is up, so we can poll. v.', result);
       this.polling = true;
       this.emit('poll');
 		})
 		.catch(error => {
-      this.log('Cant reach the server.');
+      this.log(error);
     });
   }
 
@@ -85,7 +91,7 @@ class OctoprintDevice extends Homey.Device {
 
 
 	async pollDevice() {
-		while ( this.polling && this.printer ) {
+		while ( this.polling && this.printerConnected ) {
 			await this.octoprint.getData('/api/printer')
 			.then(result => {
         // State
@@ -100,6 +106,7 @@ class OctoprintDevice extends Homey.Device {
         // Printing?
         this.octoprint.getPrinterJob()
         .then(job => {
+          console.log('Job results', result);
           this.setCapabilityValue('job_completion', job.completion).catch(error => this.log(error));
           this.setCapabilityValue('job_estimate', job.estimate).catch(error => this.log(error));
           this.setCapabilityValue('job_time', job.time).catch(error => this.log(error));
@@ -113,7 +120,9 @@ class OctoprintDevice extends Homey.Device {
         this.log('Cant poll, printer isnt connected?', error);
       });
 
-      let pollInterval = Homey.ManagerSettings.get('pollInterval') || 30;
+      let pollInterval = Homey.ManagerSettings.get('pollInterval') >= 10 ? Homey.ManagerSettings.get('pollInterval') : 30;
+      console.log(pollInterval);
+
       await delay(pollInterval*1000);
 		}
 	}
