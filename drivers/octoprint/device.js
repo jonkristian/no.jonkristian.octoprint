@@ -24,14 +24,15 @@ class OctoprintDevice extends Homey.Device {
     this.addListener('poll', this.pollDevice);
 
     this.registerCapabilityListener('onoff', async (value,opts) => {
+      let data;
       if ( false == value ) {
         // Don't set off while printing.
         if ( 'Closed' == this.printer ) {
-          data = { command: 'disconnect' }
+          data = {command:'disconnect'};
           await this.octoprint.postData('/api/connection', data).catch(error => this.log(error));
         }
       } else {
-        data = { command: 'connect' }
+        data = {command:'connect'};
         await this.octoprint.postData('/api/connection', data).catch(error => this.log(error));
       }
     });
@@ -103,7 +104,6 @@ class OctoprintDevice extends Homey.Device {
         // Printer operation state
         await this.octoprint.getData('/api/printer')
         .then(operation => {
-          console.log('Are we reaching operation?');
           this.setCapabilityValue('printer_temp_bed', operation.temperature.bed.actual).catch(error => this.log(error));
           this.setCapabilityValue('printer_temp_tool', operation.temperature.tool0.actual).catch(error => this.log(error));
         });
