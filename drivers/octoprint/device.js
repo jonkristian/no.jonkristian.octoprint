@@ -86,7 +86,7 @@ class OctoprintDevice extends Homey.Device {
       this.printer = await this.octoprint.getPrinterState();
       this.setCapabilityValue('printer_state', this.printer).catch(error => this.log(error));
 
-      console.log('Printer state is', this.printer);
+      // console.log('Printer state is', this.printer);
 
       // Printer connected?
       if ('Closed' == this.printer ) {
@@ -120,7 +120,7 @@ class OctoprintDevice extends Homey.Device {
         this.setCapabilityValue('job_left', job.left).catch(error => this.log(error));
       });
 
-      let pollInterval = Homey.ManagerSettings.get('pollInterval') >= 10 ? Homey.ManagerSettings.get('pollInterval') : 10;
+      let pollInterval = Homey.ManagerSettings.get('pollInterval') >= 10 ? Homey.ManagerSettings.get('pollInterval') : 30;
       await delay(pollInterval*1000);
     }
 
