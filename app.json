@@ -87,7 +87,8 @@
         "en": "Time Estimate",
         "no": "Estimert tid"
       },
-      "getable": true
+      "getable": true,
+      "icon": "/drivers/octoprint/assets/job_estimate.svg"
     },
     "job_left": {
       "type": "string",
@@ -126,7 +127,8 @@
         "en": "Print Time",
         "no": "Utskriftstid"
       },
-      "getable": true
+      "getable": true,
+      "icon": "/drivers/octoprint/assets/job_time.svg"
     },
     "printer_state": {
       "type": "string",
