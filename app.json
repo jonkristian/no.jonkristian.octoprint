@@ -45,6 +45,14 @@
         "title": {
           "en": "Print finished"
         },
+        "tokens": [
+          {
+            "name": "duration",
+            "title": {
+              "en": "Duration"
+            }
+          }
+        ],
         "args": [
           {
             "type": "device",
@@ -80,13 +88,26 @@
             "filter": "driver_id=octoprint"
           }
         ]
+      },
+      {
+        "id": "bedTemperature",
+        "title": {
+          "en": "Bed temperature"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=octoprint"
+          }
+        ]
       }
     ],
     "actions": [
       {
-        "id": "stopThePrint",
+        "id": "cancelPrint",
         "title": {
-          "en": "Stop the print"
+          "en": "Cancel current print"
         },
         "args": [
           {

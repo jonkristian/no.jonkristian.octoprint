@@ -13,12 +13,12 @@ class OctoprintDriver extends Homey.Driver {
     this._printFinishedTrigger = new Homey.FlowCardTriggerDevice('printFinished').register();
   }
 
-  triggerPrintStarted( device ) {
-    this._printStartedTrigger.trigger(device).catch(this.error)
+  triggerPrintStarted( device, tokens ) {
+    this._printStartedTrigger.trigger(device, tokens).catch(this.error)
   }
 
-  triggerPrintFinished( device ) {
-    this._printFinishedTrigger.trigger(device).catch(this.error);
+  triggerPrintFinished( device, tokens ) {
+    this._printFinishedTrigger.trigger(device, tokens).catch(this.error);
   }
 
   onPair( socket ) {

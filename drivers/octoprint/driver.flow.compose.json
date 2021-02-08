@@ -10,7 +10,15 @@
             "id": "printFinished",
             "title": {
                 "en": "Print finished"
-            }
+            },
+            "tokens": [
+                {
+                    "name": "duration",
+                    "title": {
+                        "en": "Duration"
+                    }
+                }
+            ]
         }
     ],
     "conditions": [
@@ -24,6 +32,12 @@
             "id": "isNotPrinting",
             "title": {
                 "en": "is not printing"
+            }
+        },
+        {
+            "id": "bedTemperature",
+            "title": {
+                "en": "Bed temperature"
             }
         }
     ],

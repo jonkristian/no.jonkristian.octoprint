@@ -20,7 +20,19 @@ class OctoprintDevice extends Homey.Device {
 
     this.setAvailable();
 
-    this.printerState = 'Offline';
+    this.printer = {
+      state: {
+        old: null,
+        cur: null
+      },
+      job: {
+        completion: null,
+        estimate: null,
+        time: null,
+        left: null
+      }
+    };
+
     this.polling = false;
 
     this.addListener('poll', this.pollDevice);
@@ -28,7 +40,7 @@ class OctoprintDevice extends Homey.Device {
     this.registerCapabilityListener('onoff', async (value,opts) => {
       if ( false == value ) {
         // Don't set off while printing.
-        if ( 'Printing' !== this.printerState ) {
+        if ( 'Printing' !== this.printer.state.cur ) {
           this.octoprint.postData('/api/connection', {command:'disconnect'});
         }
       } else {
@@ -85,60 +97,59 @@ class OctoprintDevice extends Homey.Device {
 	async pollDevice() {
 		while ( this.polling ) {
 
-      this.printerOldState = this.printerState;
-      this.printerState = await this.octoprint.getPrinterState();
+      this.printer.state.old = this.printer.state.cur;
+      this.printer.state.cur = await this.octoprint.getPrinterState();
 
-      // console.log('Printer state is', this.printerState);
-
-      if ( this.printerOldState !== this.printerState ) {
-        await this.setCapabilityValue('printer_state', this.printerState).catch(error => this.log(error));
-        
-        this._driver.ready(() => {
-            if ( 'Printing' == this.printerState ) {
-              this._driver.triggerPrintStarted(this);
-            }
-
-            if ( 'Printing' == this.printerOldState ) {
-              this._driver.triggerPrintFinished(this);
-            }
-          });
-      }
-
-      // console.log('Printer state is', this.printer);
+      // console.log('Printer state is', this.printer.state.cur);
 
       // Printer connected?
-      if ('Offline' == this.printerState ) {
-
+      if ('Offline' == this.printer.state.cur ) {
         if ( true == this.getCapabilityValue('onoff') ) { // Trigger off if not already set.
           await this.setCapabilityValue('onoff', false).catch(error => this.log(error));
         }
 
       } else {
-
         if ( false == this.getCapabilityValue('onoff') ) { // Trigger on if not already set.
           await this.setCapabilityValue('onoff', true).catch(error => this.log(error));
         }
-
-        // Printer operation state
-        await this.octoprint.getData('/api/printer')
-        .then(operation => {
-          if ( operation.temperature ) {
-            this.setCapabilityValue('printer_temp_bed', operation.temperature.bed.actual).catch(error => this.log(error));
-            this.setCapabilityValue('printer_temp_tool', operation.temperature.tool0.actual).catch(error => this.log(error));
-          }
-        });
       }
 
-      // Printing?
-      await this.octoprint.getPrinterJob()
-      .then(job => {
-        this.setCapabilityValue('job_completion', job.completion).catch(error => this.log(error));
-        this.setCapabilityValue('job_estimate', job.estimate).catch(error => this.log(error));
-        this.setCapabilityValue('job_time', job.time).catch(error => this.log(error));
-        this.setCapabilityValue('job_left', job.left).catch(error => this.log(error));
+      // Printer operation state
+      await this.octoprint.getData('/api/printer')
+      .then(operation => {
+        if ( operation.temperature.bed.actual && operation.temperature.tool0.actual ) {
+          this.setCapabilityValue('printer_temp_bed', operation.temperature.bed.actual).catch(error => this.log(error));
+          this.setCapabilityValue('printer_temp_tool', operation.temperature.tool0.actual).catch(error => this.log(error));
+        }
       });
 
-      let pollInterval = Homey.ManagerSettings.get('pollInterval') >= 10 ? Homey.ManagerSettings.get('pollInterval') : 30;
+      // Printing?
+      this.printer.job = await this.octoprint.getPrinterJob().catch(error => this.log(error));
+      this.setCapabilityValue('job_completion', this.printer.job.completion).catch(error => this.log(error));
+      this.setCapabilityValue('job_estimate', this.printer.job.estimate).catch(error => this.log(error));
+      this.setCapabilityValue('job_time', this.printer.job.time).catch(error => this.log(error));
+      this.setCapabilityValue('job_left', this.printer.job.left).catch(error => this.log(error));
+
+      // If state changes
+      if ( this.printer.state.old !== this.printer.state.cur ) {
+        await this.setCapabilityValue('printer_state', this.printer.state.cur).catch(error => this.log(error));
+
+        this._driver.ready(() => {
+            if ( 'Printing' == this.printer.state.cur ) {
+              let tokens = {};
+              this._driver.triggerPrintStarted(this, tokens);
+            }
+
+            if ( 'Printing' == this.printer.state.old ) {
+              let tokens = {
+                'duration': this.printer.job.time
+              };
+              this._driver.triggerPrintFinished(this, tokens);
+            }
+          });
+      }
+
+      let pollInterval = Homey.ManagerSettings.get('pollInterval') >= 10 ? Homey.ManagerSettings.get('pollInterval') : 10;
       await delay(pollInterval*1000);
     }
 
