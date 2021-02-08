@@ -1,0 +1,38 @@
+{
+    "triggers": [
+        {
+            "id": "printStarted",
+            "title": {
+                "en": "Print started"
+            }
+        },
+        {
+            "id": "printFinished",
+            "title": {
+                "en": "Print finished"
+            }
+        }
+    ],
+    "conditions": [
+        {
+            "id": "isPrinting",
+            "title": {
+                "en": "is printing"
+            }
+        },
+        {
+            "id": "isNotPrinting",
+            "title": {
+                "en": "is not printing"
+            }
+        }
+    ],
+    "actions": [
+        {
+            "id": "cancelPrint",
+            "title": {
+                "en": "Cancel current print"
+            }
+        }
+    ]
+}

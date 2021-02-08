@@ -25,6 +25,79 @@
     "name": "Jon Kristian Nilsen",
     "email": "hello@jonkristian.no"
   },
+  "flow": {
+    "triggers": [
+      {
+        "id": "printStarted",
+        "title": {
+          "en": "Print started"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=octoprint"
+          }
+        ]
+      },
+      {
+        "id": "printFinished",
+        "title": {
+          "en": "Print finished"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=octoprint"
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "isPrinting",
+        "title": {
+          "en": "is printing"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=octoprint"
+          }
+        ]
+      },
+      {
+        "id": "isNotPrinting",
+        "title": {
+          "en": "is not printing"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=octoprint"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "stopThePrint",
+        "title": {
+          "en": "Stop the print"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=octoprint"
+          }
+        ]
+      }
+    ]
+  },
   "drivers": [
     {
       "id": "octoprint",

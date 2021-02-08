@@ -9,6 +9,8 @@ class OctoprintDevice extends Homey.Device {
    * onInit is called when the device is initialized.
    */
   async onInit() {
+    this._driver = this.getDriver();
+
     this.octoprint = new OctoprintAPI({
       address: this.getSetting('address'),
       port: this.getSetting('port'),
@@ -18,7 +20,7 @@ class OctoprintDevice extends Homey.Device {
 
     this.setAvailable();
 
-    this.printer = false;
+    this.printerState = 'Offline';
     this.polling = false;
 
     this.addListener('poll', this.pollDevice);
@@ -26,7 +28,7 @@ class OctoprintDevice extends Homey.Device {
     this.registerCapabilityListener('onoff', async (value,opts) => {
       if ( false == value ) {
         // Don't set off while printing.
-        if ( 'Printing' !== this.printer ) {
+        if ( 'Printing' !== this.printerState ) {
           this.octoprint.postData('/api/connection', {command:'disconnect'});
         }
       } else {
@@ -83,13 +85,29 @@ class OctoprintDevice extends Homey.Device {
 	async pollDevice() {
 		while ( this.polling ) {
 
-      this.printer = await this.octoprint.getPrinterState();
-      this.setCapabilityValue('printer_state', this.printer).catch(error => this.log(error));
+      this.printerOldState = this.printerState;
+      this.printerState = await this.octoprint.getPrinterState();
+
+      // console.log('Printer state is', this.printerState);
+
+      if ( this.printerOldState !== this.printerState ) {
+        await this.setCapabilityValue('printer_state', this.printerState).catch(error => this.log(error));
+        
+        this._driver.ready(() => {
+            if ( 'Printing' == this.printerState ) {
+              this._driver.triggerPrintStarted(this);
+            }
+
+            if ( 'Printing' == this.printerOldState ) {
+              this._driver.triggerPrintFinished(this);
+            }
+          });
+      }
 
       // console.log('Printer state is', this.printer);
 
       // Printer connected?
-      if ('Closed' == this.printer ) {
+      if ('Offline' == this.printerState ) {
 
         if ( true == this.getCapabilityValue('onoff') ) { // Trigger off if not already set.
           await this.setCapabilityValue('onoff', false).catch(error => this.log(error));
