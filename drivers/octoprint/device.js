@@ -23,7 +23,15 @@ class OctoprintDevice extends Homey.Device {
     this.printer = {
       state: {
         old: null,
-        cur: null
+        cur: 'Offline'
+      },
+      temp: {
+        bed: {
+          actual: 0
+        },
+        tool0: {
+          actual: 0
+        }
       },
       job: {
         completion: null,
@@ -96,11 +104,8 @@ class OctoprintDevice extends Homey.Device {
 
 	async pollDevice() {
 		while ( this.polling ) {
-
       this.printer.state.old = this.printer.state.cur;
       this.printer.state.cur = await this.octoprint.getPrinterState();
-
-      // console.log('Printer state is', this.printer.state.cur);
 
       // Printer connected?
       if ('Offline' == this.printer.state.cur ) {
@@ -115,13 +120,9 @@ class OctoprintDevice extends Homey.Device {
       }
 
       // Printer operation state
-      await this.octoprint.getData('/api/printer')
-      .then(operation => {
-        if ( operation.temperature.bed.actual && operation.temperature.tool0.actual ) {
-          this.setCapabilityValue('printer_temp_bed', operation.temperature.bed.actual).catch(error => this.log(error));
-          this.setCapabilityValue('printer_temp_tool', operation.temperature.tool0.actual).catch(error => this.log(error));
-        }
-      });
+      this.printer.temp = await this.octoprint.getPrinterTemps().catch(error => this.log(error));
+      this.setCapabilityValue('printer_temp_bed', this.printer.temp.bed.actual).catch(error => this.log(error));
+      this.setCapabilityValue('printer_temp_tool', this.printer.temp.tool0.actual).catch(error => this.log(error));
 
       // Printing?
       this.printer.job = await this.octoprint.getPrinterJob().catch(error => this.log(error));
@@ -133,7 +134,6 @@ class OctoprintDevice extends Homey.Device {
       // If state changes
       if ( this.printer.state.old !== this.printer.state.cur ) {
         await this.setCapabilityValue('printer_state', this.printer.state.cur).catch(error => this.log(error));
-
         this._driver.ready(() => {
             if ( 'Printing' == this.printer.state.cur ) {
               let tokens = {};
@@ -152,7 +152,6 @@ class OctoprintDevice extends Homey.Device {
       let pollInterval = Homey.ManagerSettings.get('pollInterval') >= 10 ? Homey.ManagerSettings.get('pollInterval') : 10;
       await delay(pollInterval*1000);
     }
-
 	}
 }
 
