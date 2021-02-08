@@ -1,10 +1,10 @@
 <script type="text/javascript">
 function configure() {
-    let name = $("#name").val();
-    let address = $("#address").val();
-    let port = $("#port").val();
-    let ssl = $("#ssl").val();
-    let apikey = $("#apikey").val();
+    let name = document.getElementById('name').value;
+    let address = document.getElementById('address').value;
+    let port = document.getElementById('port').value;
+    let ssl = ( document.getElementById('ssl').checked ) ? 'on' : 'off';
+    let apikey = document.getElementById('apikey').value;
 
     if ( undefined !== name || undefined !== address || undefined !== apikey ) {
         const settings = {
