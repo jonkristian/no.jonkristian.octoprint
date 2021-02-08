@@ -4,5 +4,6 @@
         "en": "State",
         "no": "Status"
     },
-    "getable": true
+    "getable": true,
+    "icon": "/drivers/octoprint/assets/printer_state.svg"
 }

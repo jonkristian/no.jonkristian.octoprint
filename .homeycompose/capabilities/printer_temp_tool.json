@@ -6,5 +6,6 @@
         "en": "Tool temp",
         "no": "Tool temp"
     },
-    "getable": true
+    "getable": true,
+    "icon": "/drivers/octoprint/assets/printer_temp_tool.svg"
 }

@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "compatibility": ">=3.1.0",
   "sdk": 2,
+  "brandColor": "#12BB00",
   "name": {
     "en": "Octoprint",
     "no": "Octoprint"
@@ -76,7 +77,8 @@
         "en": "Completion",
         "no": "Ferdig"
       },
-      "getable": true
+      "getable": true,
+      "icon": "/drivers/octoprint/assets/job_completion.svg"
     },
     "job_estimate": {
       "type": "string",
@@ -94,7 +96,8 @@
         "en": "Time Left",
         "no": "Gjenstående"
       },
-      "getable": true
+      "getable": true,
+      "icon": "/drivers/octoprint/assets/job_left.svg"
     },
     "job_pause": {
       "type": "boolean",
@@ -131,7 +134,8 @@
         "en": "State",
         "no": "Status"
       },
-      "getable": true
+      "getable": true,
+      "icon": "/drivers/octoprint/assets/printer_state.svg"
     },
     "printer_temp_bed": {
       "type": "number",
@@ -141,7 +145,8 @@
         "en": "Bed temp",
         "no": "Bed temp"
       },
-      "getable": true
+      "getable": true,
+      "icon": "/drivers/octoprint/assets/printer_temp_bed.svg"
     },
     "printer_temp_tool": {
       "type": "number",
@@ -151,7 +156,8 @@
         "en": "Tool temp",
         "no": "Tool temp"
       },
-      "getable": true
+      "getable": true,
+      "icon": "/drivers/octoprint/assets/printer_temp_tool.svg"
     }
   },
   "discovery": {

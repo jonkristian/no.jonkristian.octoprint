@@ -6,5 +6,6 @@
         "en": "Completion",
         "no": "Ferdig"
     },
-    "getable": true
+    "getable": true,
+    "icon": "/drivers/octoprint/assets/job_completion.svg"
 }
