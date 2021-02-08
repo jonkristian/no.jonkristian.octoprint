@@ -34,10 +34,10 @@ class OctoprintDevice extends Homey.Device {
         }
       },
       job: {
-        completion: null,
-        estimate: null,
-        time: null,
-        left: null
+        completion: '0',
+        estimate: '0',
+        time: '0',
+        left: '0'
       }
     };
 
@@ -119,17 +119,20 @@ class OctoprintDevice extends Homey.Device {
         }
       }
 
-      // Printer operation state
-      this.printer.temp = await this.octoprint.getPrinterTemps().catch(error => this.log(error));
-      this.setCapabilityValue('printer_temp_bed', this.printer.temp.bed.actual).catch(error => this.log(error));
-      this.setCapabilityValue('printer_temp_tool', this.printer.temp.tool0.actual).catch(error => this.log(error));
 
-      // Printing?
-      this.printer.job = await this.octoprint.getPrinterJob().catch(error => this.log(error));
-      this.setCapabilityValue('job_completion', this.printer.job.completion).catch(error => this.log(error));
-      this.setCapabilityValue('job_estimate', this.printer.job.estimate).catch(error => this.log(error));
-      this.setCapabilityValue('job_time', this.printer.job.time).catch(error => this.log(error));
-      this.setCapabilityValue('job_left', this.printer.job.left).catch(error => this.log(error));
+      if ( 'Offline' !== this.printer.state.cur ) {
+        // Printer temps
+        this.printer.temp = await this.octoprint.getPrinterTemps().catch(error => this.log(error));
+        this.setCapabilityValue('printer_temp_bed', this.printer.temp.bed.actual).catch(error => this.log(error));
+        this.setCapabilityValue('printer_temp_tool', this.printer.temp.tool0.actual).catch(error => this.log(error));
+
+        // Printing?
+        this.printer.job = await this.octoprint.getPrinterJob().catch(error => this.log(error));
+        this.setCapabilityValue('job_completion', this.printer.job.completion).catch(error => this.log(error));
+        this.setCapabilityValue('job_estimate', this.printer.job.estimate).catch(error => this.log(error));
+        this.setCapabilityValue('job_time', this.printer.job.time).catch(error => this.log(error));
+        this.setCapabilityValue('job_left', this.printer.job.left).catch(error => this.log(error));
+      }
 
       // If state changes
       if ( this.printer.state.old !== this.printer.state.cur ) {
