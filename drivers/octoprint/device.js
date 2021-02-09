@@ -25,6 +25,7 @@ class OctoprintDevice extends Homey.Device {
         old: null,
         cur: 'Offline'
       },
+      snapshot: null,
       temp: {
         bed: {
           actual: 0
@@ -136,19 +137,25 @@ class OctoprintDevice extends Homey.Device {
         // State changes
         if ( this.printer.state.old !== this.printer.state.cur ) {
           await this.setCapabilityValue('printer_state', this.printer.state.cur).catch(error => this.log(error));
-          this._driver.ready(() => {
-              if ( 'Printing' == this.printer.state.cur ) {
-                let tokens = {};
-                this._driver.triggerPrintStarted(this, tokens);
-              }
 
-              if ( 'Printing' == this.printer.state.old ) {
-                let tokens = {
-                  'duration': this.printer.job.time
-                };
-                this._driver.triggerPrintFinished(this, tokens);
-              }
-            });
+          // Take snapshot on printer state change.
+          this.printer.snapshot = await this.snapshotImage();
+
+          this._driver.ready(() => {
+            let tokens = {
+              'snapshot': this.printer.snapshot,
+              'estimate': this.printer.job.estimate,
+              'duration': this.printer.job.time
+            };
+
+            if ( 'Printing' == this.printer.state.cur ) {
+              this._driver.triggerPrintStarted(this, tokens);
+            }
+
+            if ( 'Printing' == this.printer.state.old ) {
+              this._driver.triggerPrintFinished(this, tokens);
+            }
+          });
         }
       }
 
@@ -156,6 +163,18 @@ class OctoprintDevice extends Homey.Device {
       await delay(pollInterval*1000);
     }
 	}
+
+
+  async snapshotImage() {
+    this.snapshot = new Homey.Image();
+    this.snapshot.setStream(async (stream) => {
+      const res = await this.octoprint.getSnapshot();
+      if(!res.ok) throw new Error(res.statusText);
+      return res.body.pipe(stream);
+    });
+
+    return this.snapshot.register().catch(console.error);
+  }
 }
 
 module.exports = OctoprintDevice;
