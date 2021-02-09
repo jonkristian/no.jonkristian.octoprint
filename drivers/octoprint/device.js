@@ -126,30 +126,30 @@ class OctoprintDevice extends Homey.Device {
         this.setCapabilityValue('printer_temp_bed', this.printer.temp.bed.actual).catch(error => this.log(error));
         this.setCapabilityValue('printer_temp_tool', this.printer.temp.tool0.actual).catch(error => this.log(error));
 
-        // Printing?
+        // Print job
         this.printer.job = await this.octoprint.getPrinterJob().catch(error => this.log(error));
         this.setCapabilityValue('job_completion', this.printer.job.completion).catch(error => this.log(error));
         this.setCapabilityValue('job_estimate', this.printer.job.estimate).catch(error => this.log(error));
         this.setCapabilityValue('job_time', this.printer.job.time).catch(error => this.log(error));
         this.setCapabilityValue('job_left', this.printer.job.left).catch(error => this.log(error));
-      }
 
-      // If state changes
-      if ( this.printer.state.old !== this.printer.state.cur ) {
-        await this.setCapabilityValue('printer_state', this.printer.state.cur).catch(error => this.log(error));
-        this._driver.ready(() => {
-            if ( 'Printing' == this.printer.state.cur ) {
-              let tokens = {};
-              this._driver.triggerPrintStarted(this, tokens);
-            }
+        // State changes
+        if ( this.printer.state.old !== this.printer.state.cur ) {
+          await this.setCapabilityValue('printer_state', this.printer.state.cur).catch(error => this.log(error));
+          this._driver.ready(() => {
+              if ( 'Printing' == this.printer.state.cur ) {
+                let tokens = {};
+                this._driver.triggerPrintStarted(this, tokens);
+              }
 
-            if ( 'Printing' == this.printer.state.old ) {
-              let tokens = {
-                'duration': this.printer.job.time
-              };
-              this._driver.triggerPrintFinished(this, tokens);
-            }
-          });
+              if ( 'Printing' == this.printer.state.old ) {
+                let tokens = {
+                  'duration': this.printer.job.time
+                };
+                this._driver.triggerPrintFinished(this, tokens);
+              }
+            });
+        }
       }
 
       let pollInterval = Homey.ManagerSettings.get('pollInterval') >= 10 ? Homey.ManagerSettings.get('pollInterval') : 10;
