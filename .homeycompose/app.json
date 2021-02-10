@@ -23,5 +23,20 @@
   "author": {
     "name": "Jon Kristian Nilsen",
     "email": "hello@jonkristian.no"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Johnny Dalen",
+        "email": "johnny@jumpingmushroom.com"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "jonkristian"
+      }
+    }
   }
 }

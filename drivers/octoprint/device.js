@@ -94,13 +94,14 @@ class OctoprintDevice extends Homey.Device {
 		this.polling = false;
   }
 
+
 	async pollDevice() {
 		while ( this.polling ) {
 
       this.printer.server = await this.octoprint.getServerState();
 
       if ( this.printer.server ) {
-        this.log('Server is up. v',this.printer.server);
+
         this.printer.state.old = this.printer.state.cur;
         this.printer.state.cur = await this.octoprint.getPrinterState();
 
@@ -154,8 +155,9 @@ class OctoprintDevice extends Homey.Device {
             });
           }
         }
+
       } else {
-        console.log('Server is down');
+        this.log('Server unreachable');
       }
 
       let pollInterval = Homey.ManagerSettings.get('pollInterval') >= 10 ? Homey.ManagerSettings.get('pollInterval') : 10;
