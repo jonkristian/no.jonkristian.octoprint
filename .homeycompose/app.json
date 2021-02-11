@@ -1,6 +1,6 @@
 {
   "id": "no.jonkristian.octoprint",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": ">=3.1.0",
   "sdk": 2,
   "brandColor": "#12BB00",
@@ -13,8 +13,12 @@
     "no": "Styr og overvåk din 3D-printer"
   },
   "tags": {
-    "en": [ "printer" ],
-    "no": [ "printer" ]
+    "en": [
+      "printer"
+    ],
+    "no": [
+      "printer"
+    ]
   },
   "category": [
     "tools"
