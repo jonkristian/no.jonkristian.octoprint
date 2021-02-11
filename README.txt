@@ -12,6 +12,3 @@ Features:
 Flows & Tags:
 - Start/Finish
 - Duration, print time and snapshot
-
-Feedback:
-Please report issues or ideas at the issues section on Github (https://github.com/jonkristian/no.jonkristian.octoprint/issues).

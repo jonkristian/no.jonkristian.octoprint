@@ -12,6 +12,3 @@ Funksjonalitet:
 Flows og tags:
 - Start/Slutt
 - Varighet, utskriftstid og øyeblikksbilde
-
-Tilbakemeldinger:
-Vennligst rapporter problemer eller ideer under issues på Github (https://github.com/jonkristian/no.jonkristian.octoprint/issues).

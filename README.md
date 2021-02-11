@@ -26,6 +26,9 @@ Please report issues or ideas at the [issues section on Github](https://github.c
 * The Store icon "3D Printer" is made by [Ahkâm](https://www.freeiconspng.com/img/13046)
 
 ## Release Notes
+#### 1.0.2
+- Wrong json entry in app.json
+
 #### 1.0.1
 - Modified descriptions & added source and bugs url.
 
