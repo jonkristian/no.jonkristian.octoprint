@@ -9,6 +9,10 @@
     "en": "Octoprint",
     "no": "Octoprint"
   },
+	"tags": {
+		"en": [ "printer" ],
+    "no": [ "printer" ]
+  },
   "description": {
     "en": "OctoPrint is a web interface for your 3D printer.",
     "no": "Octoprint er ett web-grensesnitt for din 3D printer."
