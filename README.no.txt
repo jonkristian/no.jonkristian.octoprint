@@ -1,4 +1,4 @@
-OctoPrint er et web grensesnitt for din 3D Printer.
+OctoPrint er et web grensesnitt for din 3D-Printer.
 
 Støttede språk:
  Engelsk
@@ -9,7 +9,7 @@ Funksjonalitet:
 - Printer status
 - Printer sensorer
 
-Flows og Tags:
+Flows og tags:
 - Start/Slutt
 - Varighet, utskriftstid og øyeblikksbilde
 

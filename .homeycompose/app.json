@@ -9,8 +9,8 @@
     "no": "Octoprint"
   },
   "description": {
-    "en": "OctoPrint is a web interface for your 3D printer.",
-    "no": "Octoprint er ett web-grensesnitt for din 3D printer."
+    "en": "Control and monitor your 3D printer",
+    "no": "Styr og overvåk din 3D-printer"
   },
   "tags": {
     "en": [ "printer" ],
