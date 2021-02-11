@@ -2,7 +2,7 @@
 [OctoPrint](https://octoprint.org) is a web interface for your 3D printer. This is the app integration for Homey.
 
 ## Instructions
-Once installed you can add your octoprint server as a device. The main app only features polling time for now. Homey's onoff state represents connect/disconnect in octoprint. This app is alpha, if you have any issues or feature suggestions please report them [here](https://github.com/jonkristian/no.jonkristian.octoprint/issues).
+[Download](https://github.com/jonkristian/no.jonkristian.octoprint/archive/master.zip) and extract the latest code and type ``npm install`` from inside the folder, it will install app dependencies, then you can type ``homey app install``. Once installed you can add your octoprint server as a device. The main app only features polling time for now. Homey's onoff state represents connect/disconnect in octoprint. This app is alpha, if you have any issues or feature suggestions please report them [here](https://github.com/jonkristian/no.jonkristian.octoprint/issues).
 
 ## Features (for now)
 * Printer connect/disconnect
