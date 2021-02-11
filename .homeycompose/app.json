@@ -13,8 +13,8 @@
     "no": "Octoprint er ett web-grensesnitt for din 3D printer."
   },
   "tags": {
-    "en": "printer",
-    "no": "printer"
+    "en": [ "printer" ],
+    "no": [ "printer" ]
   },
   "category": [
     "tools"
