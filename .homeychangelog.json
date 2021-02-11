@@ -1,5 +1,11 @@
 {
   "1.0.0": {
     "en": "Initial release."
+  },
+  "1.0.1": {
+    "en": "Modified descriptions & added source and bugs url."
+  },
+  "1.0.2": {
+    "en": "Fixes wrong json entry."
   }
 }
