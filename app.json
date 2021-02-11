@@ -9,6 +9,10 @@
     "en": "Octoprint",
     "no": "Octoprint"
   },
+	"tags": {
+		"en": [ "printer" ],
+    "no": [ "printer" ]
+  },
   "description": {
     "en": "OctoPrint is a web interface for your 3D printer.",
     "no": "Octoprint er ett web-grensesnitt for din 3D printer."
@@ -24,6 +28,21 @@
   "author": {
     "name": "Jon Kristian Nilsen",
     "email": "hello@jonkristian.no"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Johnny Dalen",
+        "email": "johnny@jumpingmushroom.com"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "jonkristian"
+      }
+    }
   },
   "flow": {
     "triggers": [
