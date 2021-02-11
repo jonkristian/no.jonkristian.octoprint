@@ -20,8 +20,8 @@
     ],
     "icon": "{{driverAssetsPath}}/icon.svg",
     "images": {
-        "large": "/drivers/printer/assets/images/large.png",
-        "small": "/drivers/printer/assets/images/small.png"
+        "large": "/drivers/octoprint/assets/images/large.png",
+        "small": "/drivers/octoprint/assets/images/small.png"
     },
     "pair": [
         {
