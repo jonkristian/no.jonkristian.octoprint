@@ -133,7 +133,7 @@ class OctoprintDevice extends Homey.Device {
 
           // State changes
           if ( this.printer.state.old !== this.printer.state.cur ) {
-            await this.setCapabilityValue('printer_state', this.printer.state.cur);
+            await this.setCapabilityValue('printer_state', this.translateString(this.printer.state.cur));
 
             // Take snapshot on printer state change.
             this.printer.snapshot = await this.snapshotImage();
@@ -169,12 +169,26 @@ class OctoprintDevice extends Homey.Device {
   async snapshotImage() {
     this.snapshot = new Homey.Image();
     this.snapshot.setStream(async (stream) => {
-      const res = await this.octoprint.getSnapshot();
+      const res = await this.octoprint.getSnapshot(this.getSetting('snapshot_url'));
       if(!res.ok) throw new Error(res.statusText);
       return res.body.pipe(stream);
     });
 
     return this.snapshot.register().catch(console.error);
+  }
+
+
+  translateString(string) {
+    switch(string) {
+      case 'Offline':
+        return Homey.__("states.offline");
+      case 'Operational':
+        return Homey.__("states.operational");
+      case 'Closed':
+        return Homey.__("states.closed");
+      default:
+        return '-';
+    }
   }
 }
 

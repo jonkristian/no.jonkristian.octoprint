@@ -26,6 +26,15 @@ Please report issues or ideas at the [issues section on Github](https://github.c
 * The Store icon "3D Printer" is made by [Ahkâm](https://www.freeiconspng.com/img/13046)
 
 ## Release Notes
+#### 1.0.6
+- Changed sensor state value to '-' when undefined
+- Translation fix for printer state
+- Better handling of undefined checks on nested properties
+- Added option to specify webcam/snapshot url when adding device
+
+#### 1.0.5
+- Fixed wrong nozzle temperature readings
+
 #### 1.0.4
 - Athom Homey app review issues
 

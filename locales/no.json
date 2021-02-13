@@ -8,6 +8,11 @@
         "save": "Lagre",
         "success": "Instillingene ble lagret"
     },
+    "states": {
+        "offline": "Frakoblet",
+        "closed": "Lukket",
+        "operational": "Operasjonell"
+    },
     "pair": {
         "legend": "Instillinger for octoprint",
         "success": "Octoprint enhet lagt til",
@@ -18,6 +23,8 @@
         "port": "Port",
         "ssl": "SSL",
         "apikey": "API-nøkkel",
+        "snapshot_url": "Lenke til kamera-stillbilde",
+        "snapshot_url_description": "Hvis tom, benyttes standard octoprint oppsett (//Adresse/webcam/?action=snapshot).",
         "save": "Lagre"
     }
 }

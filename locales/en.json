@@ -8,6 +8,11 @@
         "save": "Save",
         "success": "Settings were saved"
     },
+    "states": {
+        "offline": "Offline",
+        "closed": "Closed",
+        "operational": "Operational"
+    },
     "pair": {
         "legend": "Your octoprint credentials",
         "success": "Octoprint device added",
@@ -18,6 +23,8 @@
         "port": "Port",
         "ssl": "SSL",
         "apikey": "API Key",
+        "snapshot_url": "Snapshot URL",
+        "snapshot_url_description": "If left empty, we use default octoprint settings (//Adress/webcam/?action=snapshot).",
         "save": "Save"
     }
 }
