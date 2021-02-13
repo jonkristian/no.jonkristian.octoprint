@@ -16,5 +16,8 @@
   },
   "1.0.5": {
     "en": "Fixes wrong temp reading for tool."
+  },
+  "1.0.6": {
+    "en": "Ability to specify snapshot url - Translations for printer states"
   }
 }
