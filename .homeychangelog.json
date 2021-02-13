@@ -13,5 +13,8 @@
   },
   "1.0.4": {
     "en": "Remove link to issues from README"
+  },
+  "1.0.5": {
+    "en": "Fixes wrong temp reading for tool."
   }
 }
