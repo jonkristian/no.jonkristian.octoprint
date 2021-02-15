@@ -28,7 +28,7 @@
         },
         "snapshot": {
             "url": "Lenke til kamera-stillbilde",
-            "description": "Hvis tom, benyttes standard OctoPrint -oppsett.",
+            "description": "Hvis tom, benyttes standard OctoPrint -oppsett."
         },
         "save": "Lagre"
     }
