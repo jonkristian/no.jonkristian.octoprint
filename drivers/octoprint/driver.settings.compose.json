@@ -1,0 +1,24 @@
+[
+    {
+        "type": "group",
+        "label": {
+            "en": "General settings",
+            "no": "Generelle instillinger"
+        },
+        "children": [
+            {
+                "id": "snapshot_url",
+                "type": "text",
+                "label": {
+                    "en": "Snapshot URL",
+                    "no": "Addresse til kamera-stillbilde"
+                },
+                "value": "",
+                "hint": {
+                    "en": "Provide an URL to a camera still image to be used in flows.",
+                    "no": "Legg inn adresse til kamera-stilbilde som igjen kan benyttes i flows."
+                }
+            }
+        ]
+    }
+]

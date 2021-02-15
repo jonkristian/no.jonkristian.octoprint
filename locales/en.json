@@ -11,20 +11,29 @@
     "states": {
         "offline": "Offline",
         "closed": "Closed",
-        "operational": "Operational"
+        "operational": "Operational",
+        "printing": "Printing"
     },
     "pair": {
-        "legend": "Your octoprint credentials",
-        "success": "Octoprint device added",
-        "required": "Some fields are missing",
-        "keylength": "Key is empty or wrong length",
-        "name": "Name",
-        "address": "Adress",
-        "port": "Port",
-        "ssl": "SSL",
-        "apikey": "API Key",
-        "snapshot_url": "Snapshot URL",
-        "snapshot_url_description": "If left empty, we use default octoprint settings (//Adress/webcam/?action=snapshot).",
-        "save": "Save"
+        "legend": "Your OctoPrint credentials",
+        "successful": "OctoPrint device added",
+        "unsuccessful": "Could not find OctoPrint, make sure you have the correct credentials.",
+        "address": {
+            "field": "Address",
+            "description": "Your OctoPrint server address."
+        },
+        "apikey": {
+            "field": "API Key",
+            "description": "Generate an application API-key in octoprint then add it here."
+        },
+        "snapshot": {
+            "url": "Snapshot URL",
+            "description": "If left empty, we use default octoprint settings."
+        },
+        "save": "Save",
+        "error": {
+            "required": "Both address and token needs to be set.",
+            "noping": "Could not find the OctoPrint instance."
+        }
     }
 }

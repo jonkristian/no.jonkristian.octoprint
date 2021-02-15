@@ -26,6 +26,13 @@ Please report issues or ideas at the [issues section on Github](https://github.c
 * The Store icon "3D Printer" is made by [Ahkâm](https://www.freeiconspng.com/img/13046)
 
 ## Release Notes
+#### 1.0.7
+- Homey SDK v3
+- Easier setup
+- Adds missing printer state translation
+- Adds homey community topic id
+- Adds ability to edit snapshot url
+
 #### 1.0.6
 - Changed sensor state value to '-' when undefined
 - Translation fix for printer state

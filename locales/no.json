@@ -11,20 +11,25 @@
     "states": {
         "offline": "Frakoblet",
         "closed": "Lukket",
-        "operational": "Operasjonell"
+        "operational": "Operasjonell",
+        "printing": "Printer"
     },
     "pair": {
-        "legend": "Instillinger for octoprint",
-        "success": "Octoprint enhet lagt til",
-        "required": "Noen felter mangler",
-        "keylength": "Nøkkel er tom eller feil",
-        "name": "Navn",
-        "address": "Adresse",
-        "port": "Port",
-        "ssl": "SSL",
-        "apikey": "API-nøkkel",
-        "snapshot_url": "Lenke til kamera-stillbilde",
-        "snapshot_url_description": "Hvis tom, benyttes standard octoprint oppsett (//Adresse/webcam/?action=snapshot).",
+        "legend": "Dine OctoPrint opplysninger",
+        "successful": "OctoPrint -enhet lagt til",
+        "unsuccessful": "Kunne inn finne OctoPrint, vennligst sjekk at du har riktige opplysninger.",
+        "address": {
+            "field": "Adresse",
+            "description": "Adressen til din OctoPrint -server."
+        },
+        "apikey": {
+            "field": "API-nøkkel",
+            "description": "Lag en applikasjonsnøkkel i OctoPrint og lim den inn her."
+        },
+        "snapshot": {
+            "url": "Lenke til kamera-stillbilde",
+            "description": "Hvis tom, benyttes standard OctoPrint -oppsett.",
+        },
         "save": "Lagre"
     }
 }

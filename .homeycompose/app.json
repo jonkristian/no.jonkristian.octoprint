@@ -1,8 +1,8 @@
 {
   "id": "no.jonkristian.octoprint",
   "version": "1.0.6",
-  "compatibility": ">=3.1.0",
-  "sdk": 2,
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
   "brandColor": "#12BB00",
   "name": {
     "en": "Octoprint",
@@ -50,5 +50,6 @@
   "source": "https://github.com/jonkristian/no.jonkristian.octoprint",
   "bugs": {
     "url": "https://github.com/jonkristian/no.jonkristian.octoprint/issues"
-  }
+  },
+  "homeyCommunityTopicId": 42836
 }

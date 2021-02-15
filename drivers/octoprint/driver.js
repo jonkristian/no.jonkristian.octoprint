@@ -1,6 +1,7 @@
 'use strict';
 
 const Homey = require('homey');
+const { OctoprintAPI } = require('../../lib/octoprint.js');
 
 class OctoprintDriver extends Homey.Driver {
   /**
@@ -8,28 +9,35 @@ class OctoprintDriver extends Homey.Driver {
    */
   async onInit() {
     this.log('Printer has been initialized');
-
-    this._printStartedTrigger = new Homey.FlowCardTriggerDevice('printStarted').register();
-    this._printFinishedTrigger = new Homey.FlowCardTriggerDevice('printFinished').register();
+    this._printStartedTrigger = this.homey.flow.getDeviceTriggerCard('printStarted');
+    this._printFinishedTrigger = this.homey.flow.getDeviceTriggerCard('printFinished');
   }
 
   triggerPrintStarted( device, tokens ) {
-    this._printStartedTrigger.trigger(device, tokens).catch(this.error)
+    this._printStartedTrigger.trigger(device, tokens)
+    .then(this.log)
+    .catch(this.error);
   }
 
   triggerPrintFinished( device, tokens ) {
-    this._printFinishedTrigger.trigger(device, tokens).catch(this.error);
+    this._printFinishedTrigger.trigger(device, tokens)
+    .then(this.log)
+    .catch(this.error);
   }
 
-  onPair( socket ) {
-    socket.on('showView', (viewId, callback) => {
-      callback();
-      
-      if( viewId === 'octoprint_auth' ) {
-        socket.emit('ip', 'apikey', function( err, data ){
-	        console.log( data )
+  async onPair( session ) {
+    session.setHandler('showView', async (viewId) => {
+
+      if ('start' === viewId) {
+        session.setHandler('addOctoprint', async function(connection) {
+          // Test connection, see if we can retrieve octoprint version.
+          const octoprint = new OctoprintAPI(connection);
+          const version = await octoprint.getServerState();
+
+          return version;
         });
       }
+
     });
   }
 

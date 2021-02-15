@@ -1,0 +1,57 @@
+<script type="text/javascript">
+$(function () {
+    document.getElementById("submit").addEventListener("click", function() {
+        const connection = {
+            address: document.getElementById('address').value,
+            apikey: document.getElementById('apikey').value
+        };
+
+        if ( '' == connection.address && '' == connection.apikey ) {
+            Homey.alert(__('pair.error.required'), 'error');
+        } else {
+            Homey.emit('addOctoprint', connection)
+            .then(function (version) {
+                const device_data = {
+                    name: 'Octoprint' + version,
+                    data: {
+                        id: connection.address + '_OctoPrint_' + version
+                    },
+                    settings: { 
+                        address: connection.address,
+                        apikey: connection.apikey,
+                        snapshot_url: connection.address+'/webcam/?action=snapshot'
+                    }
+                };
+
+                Homey.createDevice(device_data)
+                .then(function (result) {
+                    Homey.alert(__('pair.successful'), 'info');
+                    Homey.done();
+                })
+                .catch(function (error) {
+                    Homey.alert(error);
+                });
+            })
+            .catch(function(error) {
+                Homey.alert(error);
+            });
+        }
+    });
+});
+</script>
+
+<fieldset>
+    <legend data-i18n="pair.legend"></legend>
+    <div class="field row">
+        <label for="address" data-i18n="pair.address.field"></label>
+        <input type="text" id="address">
+        <small><i data-i18n="pair.address.description"></i></small>
+    </div>
+    <div class="field row">
+        <label for="apikey" data-i18n="pair.apikey.field"></label>
+        <input type="text" id="apikey">
+        <small><i data-i18n="pair.apikey.description"></i></small>
+    </div>
+</fieldset>
+
+<button class="right" id="submit" data-i18n="pair.save">

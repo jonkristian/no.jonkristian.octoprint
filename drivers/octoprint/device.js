@@ -9,8 +9,6 @@ class OctoprintDevice extends Homey.Device {
    * onInit is called when the device is initialized.
    */
   async onInit() {
-    this._driver = this.getDriver();
-
     this.octoprint = new OctoprintAPI({
       address: this.getSetting('address'),
       port: this.getSetting('port'),
@@ -138,21 +136,19 @@ class OctoprintDevice extends Homey.Device {
             // Take snapshot on printer state change.
             this.printer.snapshot = await this.snapshotImage();
 
-            this._driver.ready(() => {
-              let tokens = {
-                'snapshot': this.printer.snapshot,
-                'estimate': this.printer.job.estimate,
-                'duration': this.printer.job.time
-              };
+            let tokens = {
+              'snapshot': this.printer.snapshot,
+              'estimate': this.printer.job.estimate,
+              'duration': this.printer.job.time
+            };
 
-              if ( 'Printing' == this.printer.state.cur ) {
-                this._driver.triggerPrintStarted(this, tokens);
-              }
+            if ( 'Printing' == this.printer.state.cur ) {
+              this.homey.flow.triggerPrintStarted(this, tokens);
+            }
 
-              if ( 'Printing' == this.printer.state.old ) {
-                this._driver.triggerPrintFinished(this, tokens);
-              }
-            });
+            if ( 'Printing' == this.printer.state.old ) {
+              this.homey.flow.triggerPrintFinished(this, tokens);
+            }
           }
         }
 
@@ -160,34 +156,37 @@ class OctoprintDevice extends Homey.Device {
         this.log('Server unreachable');
       }
 
-      let pollInterval = Homey.ManagerSettings.get('pollInterval') >= 10 ? Homey.ManagerSettings.get('pollInterval') : 10;
+      let pollInterval = this.homey.settings.get('pollInterval') >= 10 ? this.homey.settings.get('pollInterval') : 10;
       await delay(pollInterval*1000);
     }
 	}
 
 
   async snapshotImage() {
-    this.snapshot = new Homey.Image();
+    this.snapshot = await this.homey.images.createImage();
     this.snapshot.setStream(async (stream) => {
       const res = await this.octoprint.getSnapshot(this.getSetting('snapshot_url'));
-      if(!res.ok) throw new Error(res.statusText);
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+
       return res.body.pipe(stream);
     });
-
-    return this.snapshot.register().catch(console.error);
   }
 
 
   translateString(string) {
     switch(string) {
       case 'Offline':
-        return Homey.__("states.offline");
+        return this.homey.__("states.offline");
       case 'Operational':
-        return Homey.__("states.operational");
+        return this.homey.__("states.operational");
       case 'Closed':
-        return Homey.__("states.closed");
+        return this.homey.__("states.closed");
+      case 'Printing':
+        return this.homey.__("states.printing");
       default:
-        return '-';
+        return string;
     }
   }
 }
