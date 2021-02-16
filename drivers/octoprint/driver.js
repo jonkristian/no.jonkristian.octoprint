@@ -9,20 +9,17 @@ class OctoprintDriver extends Homey.Driver {
    */
   async onInit() {
     this.log('Printer has been initialized');
+
     this._printStartedTrigger = this.homey.flow.getDeviceTriggerCard('printStarted');
     this._printFinishedTrigger = this.homey.flow.getDeviceTriggerCard('printFinished');
   }
 
-  triggerPrintStarted( device, tokens ) {
-    this._printStartedTrigger.trigger(device, tokens)
-    .then(this.log)
-    .catch(this.error);
+  triggerPrintStarted( device, tokens, state ) {
+    this._printStartedTrigger.trigger(device, tokens, state).catch(this.error);
   }
 
-  triggerPrintFinished( device, tokens ) {
-    this._printFinishedTrigger.trigger(device, tokens)
-    .then(this.log)
-    .catch(this.error);
+  triggerPrintFinished( device, tokens, state ) {
+    this._printFinishedTrigger.trigger(device, tokens, state).catch(this.error);
   }
 
   async onPair( session ) {

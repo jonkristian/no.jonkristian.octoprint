@@ -11,8 +11,6 @@ class OctoprintDevice extends Homey.Device {
   async onInit() {
     this.octoprint = new OctoprintAPI({
       address: this.getSetting('address'),
-      port: this.getSetting('port'),
-      ssl: this.getSetting('ssl'),
       apikey: this.getSetting('apikey')
     });
 
@@ -34,12 +32,24 @@ class OctoprintDevice extends Homey.Device {
         }
       },
       job: {
-        completion: '0',
-        estimate: '0',
-        time: '0',
-        left: '0'
+        completion: '-',
+        estimate: '-',
+        time: '-',
+        left: '-'
       }
     };
+
+    let snapshot = await this.snapshotImage();
+    let snapshotToken = await this.homey.flow.createToken('octoprint_snapshot', {
+      type: 'image',
+      title: 'Snapshot'
+    });
+    await snapshotToken.setValue(snapshot);
+
+    this.homey.flow.getConditionCard('isPrinting')
+    .registerRunListener(async (args, state) => {
+      return ('Printing' == this.printer.state.cur) ? true : false;
+    });
 
     this.registerCapabilityListener('onoff', async (value,opts) => {
       if ( false == value ) {
@@ -61,7 +71,7 @@ class OctoprintDevice extends Homey.Device {
    * onAdded is called when the user adds the device, called just after pairing.
    */
   async onAdded() {
-    this.log('Octoprint has been added');
+    this.log('OctoPrint device added');
   }
 
   /**
@@ -73,7 +83,7 @@ class OctoprintDevice extends Homey.Device {
    * @returns {Promise<string|void>} return a custom message that will be displayed
    */
   async onSettings({ oldSettings, newSettings, changedKeys }) {
-    this.log('Octoprint settings where changed');
+    this.log('OctoPrint settings changed');
   }
 
   /**
@@ -82,13 +92,14 @@ class OctoprintDevice extends Homey.Device {
    * @param {string} name The new name
    */
   async onRenamed(name) {
-    this.log('Octoprint was renamed');
+    this.log('OctoPrint device renamed');
   }
 
   /**
    * onDeleted is called when the user deleted the device.
    */
   async onDeleted() {
+    this.log('OctoPrint device removed');
 		this.polling = false;
   }
 
@@ -133,21 +144,30 @@ class OctoprintDevice extends Homey.Device {
           if ( this.printer.state.old !== this.printer.state.cur ) {
             await this.setCapabilityValue('printer_state', this.translateString(this.printer.state.cur));
 
-            // Take snapshot on printer state change.
-            this.printer.snapshot = await this.snapshotImage();
-
-            let tokens = {
-              'snapshot': this.printer.snapshot,
-              'estimate': this.printer.job.estimate,
-              'duration': this.printer.job.time
-            };
-
+            // New state printing
             if ( 'Printing' == this.printer.state.cur ) {
-              this.homey.flow.triggerPrintStarted(this, tokens);
+              this.log('Print started');
+
+              let tokens = { 'estimate': this.printer.job.estimate };
+              let state = {};
+              this.driver.triggerPrintStarted(this, tokens, state);
             }
 
+            // Old state printing
             if ( 'Printing' == this.printer.state.old ) {
-              this.homey.flow.triggerPrintFinished(this, tokens);
+              
+              // New state paused?
+              if( 'Paused' == this.printer.state.cur ) {
+                this.log('Print paused');
+
+              // Not paused, so it's finished.
+              } else {
+                this.log('Print finished');
+                let tokens = { 'duration': this.printer.job.time };
+                let state = {};
+                this.driver.triggerPrintFinished(this, tokens, state);
+              }
+
             }
           }
         }
@@ -167,11 +187,12 @@ class OctoprintDevice extends Homey.Device {
     this.snapshot.setStream(async (stream) => {
       const res = await this.octoprint.getSnapshot(this.getSetting('snapshot_url'));
       if (!res.ok) {
-        throw new Error(res.statusText);
+        throw new Error('Could not fetch snapshot.');
       }
-
       return res.body.pipe(stream);
     });
+
+    return this.snapshot;
   }
 
 
@@ -185,6 +206,8 @@ class OctoprintDevice extends Homey.Device {
         return this.homey.__("states.closed");
       case 'Printing':
         return this.homey.__("states.printing");
+      case 'Paused':
+        return this.homey.__("states.paused");
       default:
         return string;
     }

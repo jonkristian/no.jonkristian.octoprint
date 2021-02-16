@@ -12,7 +12,8 @@
         "offline": "Offline",
         "closed": "Closed",
         "operational": "Operational",
-        "printing": "Printing"
+        "printing": "Printing",
+        "paused": "Paused"
     },
     "pair": {
         "legend": "Your OctoPrint credentials",

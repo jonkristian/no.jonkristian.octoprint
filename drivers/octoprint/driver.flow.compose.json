@@ -3,20 +3,15 @@
         {
             "id": "printStarted",
             "title": {
-                "en": "Print started"
+                "en": "Print started",
+                "no": "Print startet"
             },
             "tokens": [
                 {
                     "name": "estimate",
                     "title": {
-                        "en": "Estimate"
-                    }
-                },
-                {
-                    "name": "snapshot",
-                    "type": "image",
-                    "title": {
-                        "en": "Snapshot"
+                        "en": "Estimate",
+                        "no": "Estimat"
                     }
                 }
             ]
@@ -24,20 +19,15 @@
         {
             "id": "printFinished",
             "title": {
-                "en": "Print finished"
+                "en": "Print finished",
+                "no": "Print ferdig"
             },
             "tokens": [
                 {
                     "name": "duration",
                     "title": {
-                        "en": "Duration"
-                    }
-                },
-                {
-                    "name": "snapshot",
-                    "type": "image",
-                    "title": {
-                        "en": "Snapshot"
+                        "en": "Duration",
+                        "no": "Varighet"
                     }
                 }
             ]
@@ -47,19 +37,7 @@
         {
             "id": "isPrinting",
             "title": {
-                "en": "is printing"
-            }
-        },
-        {
-            "id": "isNotPrinting",
-            "title": {
-                "en": "is not printing"
-            }
-        },
-        {
-            "id": "bedTemperature",
-            "title": {
-                "en": "Bed temperature"
+                "en": "!{{Is|Isn't}} printing"
             }
         }
     ],

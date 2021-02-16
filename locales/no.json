@@ -12,7 +12,8 @@
         "offline": "Frakoblet",
         "closed": "Lukket",
         "operational": "Operasjonell",
-        "printing": "Printer"
+        "printing": "Printer",
+        "paused": "Pause"
     },
     "pair": {
         "legend": "Dine OctoPrint opplysninger",
