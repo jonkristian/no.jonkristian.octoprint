@@ -10,10 +10,11 @@
     },
     "states": {
         "offline": "Offline",
-        "closed": "Closed",
+        "closed": "Offline",
         "operational": "Operational",
         "printing": "Printing",
-        "paused": "Paused"
+        "paused": "Paused",
+        "detecting": "Detecting"
     },
     "pair": {
         "legend": "Your OctoPrint credentials",

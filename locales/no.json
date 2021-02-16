@@ -10,10 +10,11 @@
     },
     "states": {
         "offline": "Frakoblet",
-        "closed": "Lukket",
+        "closed": "Frakoblet",
         "operational": "Operasjonell",
         "printing": "Printer",
-        "paused": "Pause"
+        "paused": "Pause",
+        "detecting": "Tester"
     },
     "pair": {
         "legend": "Dine OctoPrint opplysninger",

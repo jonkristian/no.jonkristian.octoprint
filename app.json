@@ -167,7 +167,10 @@
               "en": "Estimate",
               "no": "Estimat"
             },
-            "example": 10
+            "example": {
+              "en": "Estimated print time",
+              "no": "Estimert utskriftstid"
+            }
           },
           {
             "name": "duration",

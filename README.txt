@@ -10,5 +10,5 @@ Features:
 - Printer sensors
 
 Flows & Tags:
-- Start/Finish
-- Duration, print time and snapshot
+- Start/Pause/Finish
+- Duration, estimated time, print time and snapshot

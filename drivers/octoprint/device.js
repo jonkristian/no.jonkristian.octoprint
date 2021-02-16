@@ -20,7 +20,7 @@ class OctoprintDevice extends Homey.Device {
       server: null,
       state: {
         old: null,
-        cur: 'Offline'
+        cur: 'Closed'
       },
       snapshot: null,
       temp: {
@@ -134,59 +134,57 @@ class OctoprintDevice extends Homey.Device {
         this.printer.state.old = this.printer.state.cur;
         this.printer.state.cur = await this.octoprint.getPrinterState();
 
-        // Printer connected?
-        if ('Offline' == this.printer.state.cur ) {
-          if ( true == this.getCapabilityValue('onoff') ) { // Trigger off if not already set.
-            await this.setCapabilityValue('onoff', false).catch(error => this.log(error));
+        // Printer temps
+        this.printer.temp = await this.octoprint.getPrinterTemps();
+        await this.setCapabilityValue('printer_temp_bed', this.printer.temp.bed.actual);
+        await this.setCapabilityValue('printer_temp_tool', this.printer.temp.tool0.actual);
+
+        // Old !== New State change
+        if ( this.printer.state.old !== this.printer.state.cur ) {     
+          await this.setCapabilityValue('printer_state', this.translateString(this.printer.state.cur));
+
+          // Printer connected?
+          if ('Closed' == this.printer.state.cur ) {
+            if ( true == this.getCapabilityValue('onoff') ) { // Trigger off if not already set.
+              await this.setCapabilityValue('onoff', false).catch(error => this.log(error));
+            }
+          } else {
+            if ( false == this.getCapabilityValue('onoff') ) { // Trigger on if not already set.
+              await this.setCapabilityValue('onoff', true).catch(error => this.log(error));
+            }
           }
 
-        } else {
-          if ( false == this.getCapabilityValue('onoff') ) { // Trigger on if not already set.
-            await this.setCapabilityValue('onoff', true).catch(error => this.log(error));
+          if ( 'Operational' == this.printer.state.cur ) {
+            await this.setCapabilityValue('job_pause', false).catch(error => this.log(error));
+            await this.setCapabilityValue('job_cancel', false).catch(error => this.log(error));
+            await this.setCapabilityValue('job_resume', false).catch(error => this.log(error));
+          }
+
+          if ( 'Paused' == this.printer.state.cur ) {
+            await this.setCapabilityValue('job_cancel', false).catch(error => this.log(error));
+            await this.setCapabilityValue('job_resume', false).catch(error => this.log(error));
+          }
+
+          // Printing?
+          if ( 'Printing' == this.printer.state.cur ) {
+            await this.setCapabilityValue('job_pause', false).catch(error => this.log(error));
+            await this.setCapabilityValue('job_cancel', false).catch(error => this.log(error));
+
+            let tokens = {
+              'estimate': this.printer.job.estimate
+            };
+            let state = {};
+            this.driver.triggerPrintStarted(this, tokens, state);
           }
         }
 
-
-        if ( 'Offline' !== this.printer.state.cur ) {
-          // Printer temps
-          this.printer.temp = await this.octoprint.getPrinterTemps();
-          await this.setCapabilityValue('printer_temp_bed', this.printer.temp.bed.actual);
-          await this.setCapabilityValue('printer_temp_tool', this.printer.temp.tool0.actual);
-
+        if ( 'Closed' !== this.printer.state.cur ) {
           // Print job
           this.printer.job = await this.octoprint.getPrinterJob();
           await this.setCapabilityValue('job_completion', this.printer.job.completion);
           await this.setCapabilityValue('job_estimate', this.printer.job.estimate);
           await this.setCapabilityValue('job_time', this.printer.job.time);
           await this.setCapabilityValue('job_left', this.printer.job.left);
-
-          // Old !== New State change
-          if ( this.printer.state.old !== this.printer.state.cur ) {
-            await this.setCapabilityValue('printer_state', this.translateString(this.printer.state.cur));
-
-            if ( 'Operational' == this.printer.state.cur ) {
-            await this.setCapabilityValue('job_pause', false).catch(error => this.log(error));
-            await this.setCapabilityValue('job_cancel', false).catch(error => this.log(error));
-            await this.setCapabilityValue('job_resume', false).catch(error => this.log(error));
-            }
-
-            if ( 'Paused' == this.printer.state.cur ) {
-              await this.setCapabilityValue('job_cancel', false).catch(error => this.log(error));
-              await this.setCapabilityValue('job_resume', false).catch(error => this.log(error));
-            }
-
-            // Printing?
-            if ( 'Printing' == this.printer.state.cur ) {
-              await this.setCapabilityValue('job_pause', false).catch(error => this.log(error));
-              await this.setCapabilityValue('job_cancel', false).catch(error => this.log(error));
-
-              let tokens = {
-                'estimate': this.printer.job.estimate
-              };
-              let state = {};
-              this.driver.triggerPrintStarted(this, tokens, state);
-            }
-          }
 
           // Finished?
           if ( 'Printing' == this.printer.state.old && 'Operational' == this.printer.state.cur ) {
@@ -248,6 +246,8 @@ class OctoprintDevice extends Homey.Device {
         return this.homey.__("states.printing");
       case 'Paused':
         return this.homey.__("states.paused");
+      case 'Detecting serial connection':
+        return this.homey.__("states.detecting");
       default:
         return string;
     }

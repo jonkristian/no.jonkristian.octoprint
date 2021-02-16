@@ -10,5 +10,5 @@ Funksjonalitet:
 - Printer sensorer
 
 Flows og tags:
-- Start/Slutt
-- Varighet, utskriftstid og øyeblikksbilde
+- Start/Pause/Slutt
+- Varighet, estimert tid, utskriftstid og øyeblikksbilde
