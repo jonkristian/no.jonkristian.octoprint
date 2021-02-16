@@ -6,5 +6,6 @@
         "no": "Avbryt"
     },
     "getable": true,
-    "setable": true
+    "setable": true,
+    "icon": "/drivers/octoprint/assets/job_cancel.svg"
 }

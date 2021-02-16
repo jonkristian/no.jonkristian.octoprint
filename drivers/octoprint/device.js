@@ -51,7 +51,26 @@ class OctoprintDevice extends Homey.Device {
       return ('Printing' == this.printer.state.cur) ? true : false;
     });
 
-    this.registerCapabilityListener('onoff', async (value,opts) => {
+    this.registerCapabilityListener('job_pause', async (value) => {
+      if ( true == value && 'Printing' == this.printer.state.cur ) {
+        await this.octoprint.postData('/api/job', {"command": "pause", "action": "pause"});
+      }
+    });
+
+    this.registerCapabilityListener('job_resume', async (value) => {
+      if ( true == value && 'Paused' == this.printer.state.cur ) {
+        this.octoprint.postData('/api/job', {"command": "pause", "action": "resume"});
+      }
+    });
+
+    this.registerCapabilityListener('job_cancel', async (value) => {
+      if ( true == value && 'Printing' == this.printer.state.cur || 'Paused' == this.printer.state.cur ) {
+        this.octoprint.postData('/api/job', {command:'cancel'});
+      }
+    });
+
+
+    this.registerCapabilityListener('onoff', async (value) => {
       if ( false == value ) {
         // Don't set off while printing.
         if ( 'Printing' !== this.printer.state.cur ) {
@@ -61,6 +80,7 @@ class OctoprintDevice extends Homey.Device {
         this.octoprint.postData('/api/connection', {command:'connect'});
       }
     });
+
 
     this.addListener('poll', this.pollDevice);
     this.polling = true;
@@ -140,35 +160,55 @@ class OctoprintDevice extends Homey.Device {
           await this.setCapabilityValue('job_time', this.printer.job.time);
           await this.setCapabilityValue('job_left', this.printer.job.left);
 
-          // State changes
+          // Old !== New State change
           if ( this.printer.state.old !== this.printer.state.cur ) {
             await this.setCapabilityValue('printer_state', this.translateString(this.printer.state.cur));
 
-            // New state printing
-            if ( 'Printing' == this.printer.state.cur ) {
-              this.log('Print started');
+            if ( 'Operational' == this.printer.state.cur ) {
+            await this.setCapabilityValue('job_pause', false).catch(error => this.log(error));
+            await this.setCapabilityValue('job_cancel', false).catch(error => this.log(error));
+            await this.setCapabilityValue('job_resume', false).catch(error => this.log(error));
+            }
 
-              let tokens = { 'estimate': this.printer.job.estimate };
+            if ( 'Paused' == this.printer.state.cur ) {
+              await this.setCapabilityValue('job_cancel', false).catch(error => this.log(error));
+              await this.setCapabilityValue('job_resume', false).catch(error => this.log(error));
+            }
+
+            // Printing?
+            if ( 'Printing' == this.printer.state.cur ) {
+              await this.setCapabilityValue('job_pause', false).catch(error => this.log(error));
+              await this.setCapabilityValue('job_cancel', false).catch(error => this.log(error));
+
+              let tokens = {
+                'estimate': this.printer.job.estimate
+              };
               let state = {};
               this.driver.triggerPrintStarted(this, tokens, state);
             }
+          }
 
-            // Old state printing
-            if ( 'Printing' == this.printer.state.old ) {
-              
-              // New state paused?
-              if( 'Paused' == this.printer.state.cur ) {
-                this.log('Print paused');
+          // Finished?
+          if ( 'Printing' == this.printer.state.old && 'Operational' == this.printer.state.cur ) {
+            this.log('Print finished');
+            let tokens = {
+              'estimate': this.printer.job.estimate,
+              'time': this.printer.job.time
+            };
+            let state = {};
+            this.driver.triggerPrintFinished(this, tokens, state);
+          }
 
-              // Not paused, so it's finished.
-              } else {
-                this.log('Print finished');
-                let tokens = { 'duration': this.printer.job.time };
-                let state = {};
-                this.driver.triggerPrintFinished(this, tokens, state);
-              }
-
-            }
+          // Paused?
+          if ( 'Printing' == this.printer.state.old && 'Paused' == this.printer.state.cur ) {
+            this.log('Print paused');
+            let tokens = {
+              'estimate': this.printer.job.estimate,
+              'time': this.printer.job.time,
+              'left': this.printer.job.left
+            };
+            let state = {};
+            this.driver.triggerPrintPaused(this, tokens, state);
           }
         }
 

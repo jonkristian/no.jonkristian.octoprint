@@ -3,8 +3,9 @@
     "uiComponent": "button",
     "title": {
         "en": "Resume",
-        "no": "Resumer"
+        "no": "Gjenoppta"
     },
     "getable": true,
-    "setable": true
+    "setable": true,
+    "icon": "/drivers/octoprint/assets/job_resume.svg"
 }

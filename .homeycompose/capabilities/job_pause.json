@@ -6,5 +6,6 @@
         "no": "Pause"
     },
     "getable": true,
-    "setable": true
+    "setable": true,
+    "icon": "/drivers/octoprint/assets/job_pause.svg"
 }

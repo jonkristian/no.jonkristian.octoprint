@@ -6,12 +6,77 @@
                 "en": "Print started",
                 "no": "Print startet"
             },
+            "hint": {
+                "en": "When a print starts",
+                "no": "Når en print starter"
+            },
             "tokens": [
                 {
                     "name": "estimate",
                     "title": {
                         "en": "Estimate",
                         "no": "Estimat"
+                    },
+                    "example": {
+                        "en": "Estimated print time",
+                        "no": "Estimert utskriftstid"
+                    }
+                },
+                {
+                    "name": "time",
+                    "title": {
+                        "en": "Time",
+                        "no": "Tid"
+                    },
+                    "example": {
+                        "en": "Current print time",
+                        "no": "Nåværende utskriftstid"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "printPaused",
+            "title": {
+                "en": "Print paused",
+                "no": "Print pauset"
+            },
+            "hint": {
+                "en": "When a print pauses",
+                "no": "Når en print settes på pause"
+            },
+            "tokens": [
+                {
+                    "name": "estimate",
+                    "title": {
+                        "en": "Estimate",
+                        "no": "Estimat"
+                    },
+                    "example": {
+                        "en": "Estimated print time",
+                        "no": "Estimert utskriftstid"
+                    }
+                },
+                {
+                    "name": "time",
+                    "title": {
+                        "en": "Time",
+                        "no": "Tid"
+                    },
+                    "example": {
+                        "en": "Current print time",
+                        "no": "Nåværende utskriftstid"
+                    }
+                },
+                {
+                    "name": "left",
+                    "title": {
+                        "en": "Left",
+                        "no": "Gjenstående"
+                    },
+                    "example": {
+                        "en": "Time left",
+                        "no": "Tid som gjenstår"
                     }
                 }
             ]
@@ -22,12 +87,31 @@
                 "en": "Print finished",
                 "no": "Print ferdig"
             },
+            "hint": {
+                "en": "When a print is finished",
+                "no": "Når en print er ferdig"
+            },
             "tokens": [
+                {
+                    "name": "estimate",
+                    "title": {
+                        "en": "Estimate",
+                        "no": "Estimat"
+                    },
+                    "example": {
+                        "en": "Estimated print time",
+                        "no": "Estimert utskriftstid"
+                    }
+                },
                 {
                     "name": "duration",
                     "title": {
                         "en": "Duration",
                         "no": "Varighet"
+                    },
+                    "example": {
+                        "en": "How long it took",
+                        "no": "Hvor lang tid det tok"
                     }
                 }
             ]
