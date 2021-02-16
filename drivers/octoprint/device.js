@@ -165,8 +165,9 @@ class OctoprintDevice extends Homey.Device {
             await this.setCapabilityValue('job_resume', false).catch(error => this.log(error));
           }
 
-          // Printing?
-          if ( 'Printing' == this.printer.state.cur ) {
+          if ( // Printing?
+            'Printing' == this.printer.state.cur 
+          ) {
             await this.setCapabilityValue('job_pause', false).catch(error => this.log(error));
             await this.setCapabilityValue('job_cancel', false).catch(error => this.log(error));
 
@@ -175,6 +176,34 @@ class OctoprintDevice extends Homey.Device {
             };
             let state = {};
             this.driver.triggerPrintStarted(this, tokens, state);
+          }
+
+          if ( // Pausing or Paused?
+            'Printing' == this.printer.state.old &&
+            'Pausing' == this.printer.state.old ||
+            'Paused' == this.printer.state.cur
+          ) {
+            this.log('Print paused');
+            let tokens = {
+              'estimate': this.printer.job.estimate,
+              'time': this.printer.job.time,
+              'left': this.printer.job.left
+            };
+            let state = {};
+            this.driver.triggerPrintPaused(this, tokens, state);
+          }
+
+          if ( // Finished?
+            'Printing' == this.printer.state.old && 
+            'Operational' == this.printer.state.cur
+          ) {
+            this.log('Print finished');
+            let tokens = {
+              'estimate': this.printer.job.estimate,
+              'time': this.printer.job.time
+            };
+            let state = {};
+            this.driver.triggerPrintFinished(this, tokens, state);
           }
         }
 
@@ -185,33 +214,10 @@ class OctoprintDevice extends Homey.Device {
           await this.setCapabilityValue('job_estimate', this.printer.job.estimate);
           await this.setCapabilityValue('job_time', this.printer.job.time);
           await this.setCapabilityValue('job_left', this.printer.job.left);
-
-          // Finished?
-          if ( 'Printing' == this.printer.state.old && 'Operational' == this.printer.state.cur ) {
-            this.log('Print finished');
-            let tokens = {
-              'estimate': this.printer.job.estimate,
-              'time': this.printer.job.time
-            };
-            let state = {};
-            this.driver.triggerPrintFinished(this, tokens, state);
-          }
-
-          // Paused?
-          if ( 'Printing' == this.printer.state.old && 'Paused' == this.printer.state.cur ) {
-            this.log('Print paused');
-            let tokens = {
-              'estimate': this.printer.job.estimate,
-              'time': this.printer.job.time,
-              'left': this.printer.job.left
-            };
-            let state = {};
-            this.driver.triggerPrintPaused(this, tokens, state);
-          }
         }
 
       } else {
-        this.log('Server unreachable');
+        this.log('Server unreachable', this.printer.server);
       }
 
       let pollInterval = this.homey.settings.get('pollInterval') >= 10 ? this.homey.settings.get('pollInterval') : 10;

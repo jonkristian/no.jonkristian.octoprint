@@ -104,10 +104,10 @@
                     }
                 },
                 {
-                    "name": "duration",
+                    "name": "time",
                     "title": {
-                        "en": "Duration",
-                        "no": "Varighet"
+                        "en": "Time",
+                        "no": "Tid"
                     },
                     "example": {
                         "en": "How long it took",
