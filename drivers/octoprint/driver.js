@@ -34,9 +34,7 @@ class OctoprintDriver extends Homey.Driver {
         session.setHandler('addOctoprint', async function(connection) {
           // Test connection, see if we can retrieve octoprint version.
           const octoprint = new OctoprintAPI(connection);
-          const version = await octoprint.getServerState();
-
-          return version;
+          return await octoprint.getServerState();
         });
       }
 

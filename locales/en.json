@@ -35,7 +35,7 @@
         "save": "Save",
         "error": {
             "required": "Both address and token needs to be set.",
-            "noping": "Could not find the OctoPrint instance."
+            "unreachable": "Could not connect to OctoPrint. Make sure your address and API key is correct."
         }
     }
 }

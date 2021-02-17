@@ -32,6 +32,10 @@
             "url": "Lenke til kamera-stillbilde",
             "description": "Hvis tom, benyttes standard OctoPrint -oppsett."
         },
-        "save": "Lagre"
+        "save": "Lagre",
+        "error": {
+            "required": "Adresse og API-nøkkel er påkrevd.",
+            "unreachable": "Kunne ikke kommunisere med OctoPrint. Sjekk at adresse og API-nøkkel er riktig."
+        }
     }
 }

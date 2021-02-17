@@ -14,8 +14,6 @@ class OctoprintDevice extends Homey.Device {
       apikey: this.getSetting('apikey')
     });
 
-    this.setAvailable();
-
     this.printer = {
       server: null,
       state: {
@@ -130,6 +128,7 @@ class OctoprintDevice extends Homey.Device {
       this.printer.server = await this.octoprint.getServerState();
 
       if ( this.printer.server ) {
+        this.setAvailable();
 
         this.printer.state.old = this.printer.state.cur;
         this.printer.state.cur = await this.octoprint.getPrinterState();
@@ -217,7 +216,8 @@ class OctoprintDevice extends Homey.Device {
         }
 
       } else {
-        this.log('Server unreachable', this.printer.server);
+        this.setUnavailable();
+        this.log('Server unreachable');
       }
 
       let pollInterval = this.homey.settings.get('pollInterval') >= 10 ? this.homey.settings.get('pollInterval') : 10;
