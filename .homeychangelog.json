@@ -19,5 +19,8 @@
   },
   "1.0.6": {
     "en": "Ability to specify snapshot url - Translations for printer states"
+  },
+  "1.0.7": {
+    "en": "SDK3 - Fix translations - Fix onoff trigger - Global snapshot tag - Buttons functional - Paused trigger - Community topic - Improved setup"
   }
 }
