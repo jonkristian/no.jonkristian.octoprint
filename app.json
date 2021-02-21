@@ -67,17 +67,10 @@
         },
         "tokens": [
           {
-            "name": "estimate",
+            "name": "print_started_estimate",
             "title": {
               "en": "Estimate",
               "no": "Estimat"
-            }
-          },
-          {
-            "name": "time",
-            "title": {
-              "en": "Time",
-              "no": "Tid"
             }
           }
         ],
@@ -101,21 +94,21 @@
         },
         "tokens": [
           {
-            "name": "estimate",
+            "name": "print_paused_estimate",
             "title": {
               "en": "Estimate",
               "no": "Estimat"
             }
           },
           {
-            "name": "time",
+            "name": "print_paused_time",
             "title": {
               "en": "Time",
               "no": "Tid"
             }
           },
           {
-            "name": "left",
+            "name": "print_paused_left",
             "title": {
               "en": "Left",
               "no": "Gjenstående"
@@ -142,14 +135,14 @@
         },
         "tokens": [
           {
-            "name": "estimate",
+            "name": "print_finished_estimate",
             "title": {
               "en": "Estimate",
               "no": "Estimat"
             }
           },
           {
-            "name": "time",
+            "name": "print_finished_time",
             "title": {
               "en": "Time",
               "no": "Tid"

@@ -26,6 +26,10 @@ Please report issues or ideas at the [issues section on Github](https://github.c
 * The Store icon "3D Printer" is made by [Ahkâm](https://www.freeiconspng.com/img/13046)
 
 ## Release Notes
+#### 1.0.8
+- Fixed 'flow_token_already_exists' error
+- Minor translation fixes
+
 #### 1.0.7
 - Homey SDK v3
 - Adds missing printer state translations

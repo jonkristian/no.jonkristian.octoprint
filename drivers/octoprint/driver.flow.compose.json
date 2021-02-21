@@ -4,25 +4,18 @@
             "id": "print_started",
             "title": {
                 "en": "Print started",
-                "no": "Print startet"
+                "no": "Utskrift startet"
             },
             "hint": {
                 "en": "When a print starts",
-                "no": "Når en print starter"
+                "no": "Når en utskrift starter"
             },
             "tokens": [
                 {
-                    "name": "estimate",
+                    "name": "print_started_estimate",
                     "title": {
                         "en": "Estimate",
                         "no": "Estimat"
-                    }
-                },
-                {
-                    "name": "time",
-                    "title": {
-                        "en": "Time",
-                        "no": "Tid"
                     }
                 }
             ]
@@ -31,29 +24,29 @@
             "id": "print_paused",
             "title": {
                 "en": "Print paused",
-                "no": "Print pauset"
+                "no": "Utskrift pauset"
             },
             "hint": {
-                "en": "When a print pauses",
-                "no": "Når en print settes på pause"
+                "en": "When a print is paused",
+                "no": "Når en utskrift settes på pause"
             },
             "tokens": [
                 {
-                    "name": "estimate",
+                    "name": "print_paused_estimate",
                     "title": {
                         "en": "Estimate",
                         "no": "Estimat"
                     }
                 },
                 {
-                    "name": "time",
+                    "name": "print_paused_time",
                     "title": {
                         "en": "Time",
                         "no": "Tid"
                     }
                 },
                 {
-                    "name": "left",
+                    "name": "print_paused_left",
                     "title": {
                         "en": "Left",
                         "no": "Gjenstående"
@@ -69,18 +62,18 @@
             },
             "hint": {
                 "en": "When a print is finished",
-                "no": "Når en print er ferdig"
+                "no": "Når en utskrift er ferdig"
             },
             "tokens": [
                 {
-                    "name": "estimate",
+                    "name": "print_finished_estimate",
                     "title": {
                         "en": "Estimate",
                         "no": "Estimat"
                     }
                 },
                 {
-                    "name": "time",
+                    "name": "print_finished_time",
                     "title": {
                         "en": "Time",
                         "no": "Tid"

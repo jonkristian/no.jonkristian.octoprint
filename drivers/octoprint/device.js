@@ -177,7 +177,7 @@ class OctoprintDevice extends Homey.Device {
 
             let state = {};
             let tokens = {
-              'estimate': this.printer.job.estimate
+              'print_started_estimate': this.printer.job.estimate
             };
 
             this.driver.triggerPrintStarted(this, tokens, state);
@@ -192,9 +192,9 @@ class OctoprintDevice extends Homey.Device {
 
             let state = {};
             let tokens = {
-              'estimate': this.printer.job.estimate,
-              'time': this.printer.job.time,
-              'left': this.printer.job.left
+              'print_paused_estimate': this.printer.job.estimate,
+              'print_paused_time': this.printer.job.time,
+              'print_paused_left': this.printer.job.left
             };
 
             this.driver.triggerPrintPaused(this, tokens, state);
@@ -210,8 +210,8 @@ class OctoprintDevice extends Homey.Device {
 
             let state = {};
             let tokens = {
-              'estimate': this.printer.job.estimate,
-              'time': this.printer.job.time
+              'print_finished_estimate': this.printer.job.estimate,
+              'print_finished_time': this.printer.job.time
             };
 
             this.driver.triggerPrintFinished(this, tokens, state);
