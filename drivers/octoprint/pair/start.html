@@ -7,11 +7,17 @@ $(function () {
         };
 
         if ( '' !== connection.address && '' !== connection.apikey ) {
+            Homey.showLoadingOverlay();
+            
             Homey.emit('addOctoprint', connection)
             .then(function (version) {
-                if ( null == version ) {
+
+                if ( false == version ) {
+
+                    Homey.hideLoadingOverlay();
                     Homey.alert(__('pair.error.unreachable'), 'error');
                 } else {
+
                     const device_data = {
                         name: 'Octoprint' + version,
                         data: {
@@ -26,18 +32,22 @@ $(function () {
 
                     Homey.createDevice(device_data)
                     .then(function (result) {
-                        Homey.alert(__('pair.successful'), 'info');
                         Homey.done();
+                        Homey.hideLoadingOverlay();
+                        Homey.alert(__('pair.successful'), 'info');
                     })
                     .catch(function (error) {
+                        Homey.hideLoadingOverlay();
                         Homey.alert(error);
                     });
                 }
             })
             .catch(error => {
+                Homey.hideLoadingOverlay();
                 Homey.alert(error);
             });
         } else {
+            Homey.hideLoadingOverlay();
             Homey.alert(__('pair.error.required'), 'error');
         }
     });

@@ -12,9 +12,13 @@
         "offline": "Frakoblet",
         "closed": "Frakoblet",
         "operational": "Operasjonell",
-        "printing": "Printer",
+        "printing": "Skriver ut",
         "paused": "Pause",
         "detecting": "Tester"
+    },
+    "error": {
+        "onoff_state": "Kan ikke slå av når status er (__state__)!",
+        "snapshot_failed": "Kunne ikke hente øyeblikksbilde!"
     },
     "pair": {
         "legend": "Dine OctoPrint opplysninger",

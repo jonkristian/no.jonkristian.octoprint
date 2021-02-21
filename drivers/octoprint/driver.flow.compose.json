@@ -1,7 +1,7 @@
 {
     "triggers": [
         {
-            "id": "printStarted",
+            "id": "print_started",
             "title": {
                 "en": "Print started",
                 "no": "Print startet"
@@ -16,10 +16,6 @@
                     "title": {
                         "en": "Estimate",
                         "no": "Estimat"
-                    },
-                    "example": {
-                        "en": "Estimated print time",
-                        "no": "Estimert utskriftstid"
                     }
                 },
                 {
@@ -27,16 +23,12 @@
                     "title": {
                         "en": "Time",
                         "no": "Tid"
-                    },
-                    "example": {
-                        "en": "Current print time",
-                        "no": "Nåværende utskriftstid"
                     }
                 }
             ]
         },
         {
-            "id": "printPaused",
+            "id": "print_paused",
             "title": {
                 "en": "Print paused",
                 "no": "Print pauset"
@@ -51,10 +43,6 @@
                     "title": {
                         "en": "Estimate",
                         "no": "Estimat"
-                    },
-                    "example": {
-                        "en": "Estimated print time",
-                        "no": "Estimert utskriftstid"
                     }
                 },
                 {
@@ -62,10 +50,6 @@
                     "title": {
                         "en": "Time",
                         "no": "Tid"
-                    },
-                    "example": {
-                        "en": "Current print time",
-                        "no": "Nåværende utskriftstid"
                     }
                 },
                 {
@@ -73,16 +57,12 @@
                     "title": {
                         "en": "Left",
                         "no": "Gjenstående"
-                    },
-                    "example": {
-                        "en": "Time left",
-                        "no": "Tid som gjenstår"
                     }
                 }
             ]
         },
         {
-            "id": "printFinished",
+            "id": "print_finished",
             "title": {
                 "en": "Print finished",
                 "no": "Print ferdig"
@@ -97,10 +77,6 @@
                     "title": {
                         "en": "Estimate",
                         "no": "Estimat"
-                    },
-                    "example": {
-                        "en": "Estimated print time",
-                        "no": "Estimert utskriftstid"
                     }
                 },
                 {
@@ -108,10 +84,6 @@
                     "title": {
                         "en": "Time",
                         "no": "Tid"
-                    },
-                    "example": {
-                        "en": "How long it took",
-                        "no": "Hvor lang tid det tok"
                     }
                 }
             ]
@@ -119,7 +91,7 @@
     ],
     "conditions": [
         {
-            "id": "isPrinting",
+            "id": "is_printing",
             "title": {
                 "en": "!{{Is|Isn't}} printing"
             }
@@ -127,7 +99,7 @@
     ],
     "actions": [
         {
-            "id": "cancelPrint",
+            "id": "cancel_print",
             "title": {
                 "en": "Cancel current print"
             }

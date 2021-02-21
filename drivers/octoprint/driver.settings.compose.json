@@ -11,12 +11,12 @@
                 "type": "text",
                 "label": {
                     "en": "Snapshot URL",
-                    "no": "Addresse til kamera-stillbilde"
+                    "no": "Lenke til øyeblikksbilde"
                 },
                 "value": "",
                 "hint": {
                     "en": "Provide an URL to a camera still image to be used in flows.",
-                    "no": "Legg inn adresse til kamera-stilbilde som igjen kan benyttes i flows."
+                    "no": "Legg inn adresse til øyeblikksbilde som igjen kan benyttes i flows."
                 }
             }
         ]

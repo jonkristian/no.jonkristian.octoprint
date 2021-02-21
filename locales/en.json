@@ -16,6 +16,10 @@
         "paused": "Paused",
         "detecting": "Detecting"
     },
+    "error": {
+        "onoff_state": "Can't turn off while status is (__state__)!",
+        "snapshot_failed": "Could not fetch snapshot!"
+    },
     "pair": {
         "legend": "Your OctoPrint credentials",
         "successful": "OctoPrint device added",

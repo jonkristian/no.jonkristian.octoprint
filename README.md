@@ -29,11 +29,14 @@ Please report issues or ideas at the [issues section on Github](https://github.c
 #### 1.0.7
 - Homey SDK v3
 - Adds missing printer state translations
-- Easier setup (snapshot url moved to advanced settings)
+- Easier/Quicker setup
+- Snapshot config moved to advanced settings
+- Snapshot is now a global token (tag)
+- Buttons are now functional
+- Adds trigger card for print paused
+- Fixed off trigger when it shouldn't
 - Adds homey community topic id
-- Snapshot is now a global token/tag
-- Buttons functional
-- Adds 'printPaused' trigger card
+- Adds loading overlay in setup
 
 #### 1.0.6
 - Changed sensor state value to '-' when undefined
