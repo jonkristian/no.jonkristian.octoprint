@@ -22,5 +22,8 @@
   },
   "1.0.7": {
     "en": "SDK3 - Fix translations - Fix onoff trigger - Global snapshot tag - Buttons functional - Paused trigger - Community topic - Improved setup"
+  },
+  "1.0.8": {
+    "en": "Fix flow_token_already_exists error - Minor translation fix"
   }
 }
