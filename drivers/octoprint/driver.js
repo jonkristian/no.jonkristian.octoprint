@@ -13,6 +13,9 @@ class OctoprintDriver extends Homey.Driver {
     this._printStartedTrigger = this.homey.flow.getDeviceTriggerCard('print_started');
     this._printPausedTrigger = this.homey.flow.getDeviceTriggerCard('print_paused');
     this._printFinishedTrigger = this.homey.flow.getDeviceTriggerCard('print_finished');
+
+    this.homey.flow.getConditionCard('is_printing')
+    .registerRunListener(async (args, state) => args.device.checkPrinterIsPrinting());
   }
 
   triggerPrintStarted( device, tokens, state ) {

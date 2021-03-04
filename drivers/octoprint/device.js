@@ -20,7 +20,7 @@ class OctoprintDevice extends Homey.Device {
         old: null,
         cur: 'Closed'
       },
-      snapshot: null,
+      snapshot: this.getSetting('snapshot_active'),
       temp: {
         bed: {
           actual: 0
@@ -37,17 +37,7 @@ class OctoprintDevice extends Homey.Device {
       }
     };
 
-    let snapshot = await this.snapshotImage();
-    let snapshotToken = await this.homey.flow.createToken('octoprint_snapshot', {
-      type: 'image',
-      title: 'Snapshot'
-    });
-    await snapshotToken.setValue(snapshot);
-
-    this.homey.flow.getConditionCard('is_printing')
-    .registerRunListener(async (args, state) => {
-      return ('Printing' == this.printer.state.cur) ? true : false;
-    });
+    await this.setSnapshotImage();
 
     this.registerCapabilityListener('job_pause', async (value) => {
       if ( true == value && 'Printing' == this.printer.state.cur ) {
@@ -106,6 +96,11 @@ class OctoprintDevice extends Homey.Device {
    * @returns {Promise<string|void>} return a custom message that will be displayed
    */
   async onSettings({ oldSettings, newSettings, changedKeys }) {
+
+    if ( oldSettings.snapshot_active !== newSettings.snapshot_active ) {
+      // this.setWarning( this.homey.__("snapshot.reboot") );
+    }
+
     this.log('OctoPrint settings changed');
   }
 
@@ -140,6 +135,11 @@ class OctoprintDevice extends Homey.Device {
       } else {
 
         this.setAvailable();
+
+        if ( this.printer.snapshot !== this.getSetting('snapshot_active') ) {
+          await this.setSnapshotImage();
+          this.printer.snapshot = this.getSetting('snapshot_active');
+        }
 
         this.printer.state.old = this.printer.state.cur;
         this.printer.state.cur = await this.octoprint.getPrinterState();
@@ -226,17 +226,21 @@ class OctoprintDevice extends Homey.Device {
 	}
 
 
-  async snapshotImage() {
-    this.snapshot = await this.homey.images.createImage();
-    this.snapshot.setStream(async (stream) => {
-      const res = await this.octoprint.getSnapshot(this.getSetting('snapshot_url'));
-      if (!res.ok) {
-        throw new Error( this.homey.__("error.snapshot_failed") );
-      }
-      return res.body.pipe(stream);
-    });
+  async setSnapshotImage() {
+    let snapshotUrl = this.getSetting('snapshot_url');
 
-    return this.snapshot;
+    if ( false !== this.getSetting('snapshot_active') && snapshotUrl ) {
+      this.snapshotImage = await this.homey.images.createImage();
+      this.snapshotImage.setStream(async (stream) => {
+        const res = await this.octoprint.getSnapshot(snapshotUrl);
+        if (!res.ok) {
+          throw new Error( this.homey.__("error.snapshot_failed") );
+        }
+        return res.body.pipe(stream);
+      });
+
+      await this.setCameraImage('front', this.homey.__("snapshot.title"), this.snapshotImage);
+    }
   }
 
 
@@ -253,6 +257,11 @@ class OctoprintDevice extends Homey.Device {
     await this.setCapabilityValue('job_estimate', this.printer.job.estimate);
     await this.setCapabilityValue('job_time', this.printer.job.time);
     await this.setCapabilityValue('job_left', this.printer.job.left);
+  }
+
+
+  async checkPrinterIsPrinting() {
+    return ('Printing' == this.printer.state.cur) ? true : false;
   }
 
 

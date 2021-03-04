@@ -8,7 +8,4 @@ Funksjonalitet:
 - Printer koblet til/koblet fra
 - Printer status
 - Printer sensorer
-
-Flows og tags:
-- Start/Pause/Slutt
-- Varighet, estimert tid, utskriftstid og øyeblikksbilde
+- Kamera

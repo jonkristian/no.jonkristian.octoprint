@@ -1,6 +1,10 @@
 {
     "save": "Save changes",
     "offline": "went offline",
+    "snapshot": {
+        "title": "Snapshot",
+        "reboot": "Snapshot settings changed, please restart the app!"
+    },
     "settings": {
         "title": "Global Settings",
         "pollInterval": "Poll Interval",
@@ -34,7 +38,8 @@
         },
         "snapshot": {
             "url": "Snapshot URL",
-            "description": "If left empty, we use default octoprint settings."
+            "description": "If left empty, we use default octoprint settings.",
+            "activate": "Activate"
         },
         "save": "Save",
         "error": {

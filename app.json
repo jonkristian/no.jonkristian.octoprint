@@ -229,6 +229,15 @@
           },
           "children": [
             {
+              "id": "snapshot_active",
+              "type": "checkbox",
+              "label": {
+                "en": "Use Snapshot",
+                "no": "Bruk øyeblikksbilde"
+              },
+              "value": false
+            },
+            {
               "id": "snapshot_url",
               "type": "text",
               "label": {

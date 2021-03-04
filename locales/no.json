@@ -1,6 +1,10 @@
 {
     "save": "Lagre endringer",
     "offline": "utilgjengelig",
+    "snapshot": {
+        "title": "Stillbilde",
+        "reboot": "Instilling for stillbilde ble forandret, vennligst start appen på nytt!"
+    },
     "settings": {
         "title": "Octoprint",
         "pollInterval": "Oppdatering",
@@ -34,7 +38,8 @@
         },
         "snapshot": {
             "url": "Lenke til kamera-stillbilde",
-            "description": "Hvis tom, benyttes standard OctoPrint -oppsett."
+            "description": "Hvis tom, benyttes standard OctoPrint -oppsett.",
+            "activate": "Aktiver"
         },
         "save": "Lagre",
         "error": {
