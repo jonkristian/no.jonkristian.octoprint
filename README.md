@@ -1,4 +1,7 @@
 # Octoprint
+
+![Project Maintenance][maintenance-shield]
+
 [OctoPrint](https://octoprint.org) is a web interface for your 3D printer. This is the app integration for Homey.
 
 ## Instructions
@@ -69,3 +72,5 @@ Please report issues or ideas at the [issues section on Github](https://github.c
 
 #### 1.0.0
 - Stable for app store.
+
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2021.svg?style=for-the-badge
